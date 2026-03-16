@@ -8,7 +8,10 @@ secret.txt
 node_modules/
 bin/
 Servers/
+# 모든 하위 폴더의 target 폴더 제외
 target/
+# 혹은 더 명시적으로 모든 경로의 target 폴더 지정
+**/target/
 
 # 특정 확장자를 가진 모든 파일 제외
 *.log
