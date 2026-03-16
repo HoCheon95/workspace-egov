@@ -1,24 +1,25 @@
-# 주석은 '#' 기호를 사용해요
-
-# 특정 파일 제외
-secret.txt
-
-# 특정 폴더와 그 안의 모든 내용 제외
-.metadata/
-node_modules/
-bin/
-Servers/
-# 모든 하위 폴더의 target 폴더 제외
+# 🔴 빌드 결과물 (가장 중요)
 target/
-# 혹은 더 명시적으로 모든 경로의 target 폴더 지정
 **/target/
-
-# 특정 확장자를 가진 모든 파일 제외
-*.log
+bin/
 *.class
 
-# 특정 폴더 안의 특정 확장자만 제외
-output/*.pdf
+# 🔴 이클립스(Eclipse) 관련 설정 파일
+.settings/
+.project
+.classpath
+.factorypath
+.metadata/
+Servers/
 
-# 제외에서 예외 만들기 ('!' 사용)
-!important.log
+# 🔴 VS Code 관련 설정 파일
+.vscode/
+
+# 🔴 기타 임시 파일 및 로그
+*.log
+tmp/
+temp/
+
+# 🔴 운영체제 관련 파일
+.DS_Store
+Thumbs.db
