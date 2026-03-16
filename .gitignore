@@ -1,0 +1,19 @@
+# 주석은 '#' 기호를 사용해요
+
+# 특정 파일 제외
+secret.txt
+
+# 특정 폴더와 그 안의 모든 내용 제외
+.metadata/
+node_modules/
+bin/
+
+# 특정 확장자를 가진 모든 파일 제외
+*.log
+*.class
+
+# 특정 폴더 안의 특정 확장자만 제외
+output/*.pdf
+
+# 제외에서 예외 만들기 ('!' 사용)
+!important.log
