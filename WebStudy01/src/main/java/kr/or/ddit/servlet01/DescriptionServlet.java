@@ -19,16 +19,23 @@ import jakarta.servlet.http.HttpServletResponse;
  *  개발 단계
  *  1. HTTPservlet 구현체 정의
  *  2. callback 재정의
- *      1) 생명주기 콜백
- *      2) 요청 콜백
+ *      1) 생명주기 콜백 : init, destory
+ *                  : 컨테이너는 일반적으로 관리 대상인 객체를 싱글턴으로 운영함.
+ *      2) 요청 콜백 : service, doXXX
+ *                  : 매요청 발생시 service 가 호출되고, doXXX 메소드로 분기가 이루어짐.
+ *                  : doXXX 계열의 메소드를 재정의할 때 super.doXXX 코드(405 에러 발생)를 제거해야함.
+ *  컨테이너의 의해 서블릿이 관리되므로, 그 관리 정책을 결정할 때 등록 시에 사용되는 설정으로 제어함.
+ *      ex) 객체 생성 시점을 결정하는 loadonstartup
+ *          lazy-loading : 객체가 사용되는 시점까지 객체의 생성을 미루는 방식
+ *          eager-loading : 객체가 사용되기 전에 미리 객체 생성을 해둠
+ *      ex) 객체 생성 시점에 전달하는 파라미터들.. params
  *  3. 서블릿 컨테이너에 등록
- *      1) web.xml
+ *      1) web.xml : servlet -> servlet-name -> serlvet-class
  *      2) annotation
  *  4. 서블릿의 동작 조건이 되는 url 매핑
- *      1) web.xml
+ *      1) web.xml : servlet-mapping -> servlet-name, url-pattern
  *      2) annotation
  */
-
 public class DescriptionServlet extends HttpServlet{
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -45,7 +52,7 @@ public class DescriptionServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        System.out.println("doGet 메소드 동작");
     }
 
     @Override
