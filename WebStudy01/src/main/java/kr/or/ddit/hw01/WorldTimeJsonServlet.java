@@ -29,7 +29,6 @@ public class WorldTimeJsonServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		System.out.println("json request");
 		// JSR-310 방식의 기간 API 활용
 		// 요청 파라미터로 변경
 		// String timezone = req.getParameter("timezone");
@@ -47,7 +46,7 @@ public class WorldTimeJsonServlet extends HttpServlet{
 		Locale locale = Optional.ofNullable(req.getParameter("locale"))
 								.map(Locale::forLanguageTag)
 								.filter(l -> !l.getLanguage().isBlank())
-								.orElse(Locale.getDefault());
+								.orElse(Locale.forLanguageTag("ko-KR"));
 		String formatted = 
 				now.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM)
 						.localizedBy(locale)
