@@ -30,8 +30,7 @@ public class LocaleTimeZoneJsonServlet extends HttpServlet {
         for (Locale locale : locales) {
             String languageTag = locale.toLanguageTag();
             String name = locale.getDisplayName(locale);
-            if (name.isBlank())
-                continue;
+            if (name.isBlank()) continue;
             localeMap.put(languageTag, name);
         }
 
@@ -39,6 +38,7 @@ public class LocaleTimeZoneJsonServlet extends HttpServlet {
         for (String singleZone : zoneSet) {
             ZoneId tz = ZoneId.of(singleZone);
             String name = tz.getDisplayName(TextStyle.FULL, Locale.CANADA_FRENCH);
+            if(name.contains("−")) continue;
             zoneMap.put(singleZone, name);
         }
 
