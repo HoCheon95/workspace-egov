@@ -33,11 +33,11 @@ public class LocaleTimeZoneJsonServlet extends HttpServlet {
             if (name.isBlank()) continue;
             localeMap.put(languageTag, name);
         }
-
+        
         Map<String, String> zoneMap = new HashMap<>();
         for (String singleZone : zoneSet) {
             ZoneId tz = ZoneId.of(singleZone);
-            String name = tz.getDisplayName(TextStyle.FULL, Locale.CANADA_FRENCH);
+            String name = tz.getDisplayName(TextStyle.FULL, req.getLocale());
             if(name.contains("−")) continue;
             zoneMap.put(singleZone, name);
         }
