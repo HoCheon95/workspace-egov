@@ -1,7 +1,6 @@
 package kr.or.ddit.servlet02;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.ZoneId;
 import java.time.format.TextStyle;
 import java.util.Locale;
@@ -19,6 +18,12 @@ import jakarta.servlet.http.HttpServletResponse;
  * 
  *      Model1 vs Model2 : 책임 분리 여부에 따른 아키텍처
  *      Model2 구조란?
+ *          : request 와 response 를 별개의 객체로 분리 처리하는 구조.
+ *          request 처리  (controller, 서블릿) : 요청 수신 및 검증, 데이터 생성
+ *                                     : 뷰로 전달할 데이터를 SCOPE 를 이용함.
+ *                                     : 뷰로 혹은 다른 컨트롤러로 이동하기 위한 흐름제어 구문이 필요함.
+ *          response 처리 (view, JSP, Thymleaf, Mustach) : 템플릿과 데이터를 결합해 최종 컨텐츠 생성
+ *                               : SCOPE 에서 꺼낸 데이터와 템플릿을 결합할 때 일정한 규칙에 따라 결합하고 랜더링하는 도구 => 템플릿 엔진
  *      템플릿 엔진?
  * Client Side Rendering : UI 컨텐츠가 클라이언트 사이드에서 완성됨.
  *      UI 컨텐츠 => 템플릿 + 데이터 (클라이언트 사이드)
