@@ -7,7 +7,10 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+
+import com.google.gson.Gson;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -44,14 +47,25 @@ public class WorldTimeModel2Servlet extends HttpServlet{
 		Locale locale = Optional.ofNullable(req.getParameter("locale"))
 								.map(Locale::forLanguageTag)
 								.filter(l -> !l.getLanguage().isBlank())
-								.orElse(Locale.getDefault());
+								.orElse(req.getLocale());
 		String formatted = 
 				now.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM)
 						.localizedBy(locale)
 				);
 
-		req.setAttribute("now", formatted);
-		String view ="/WEB-INF/views/hw02/world-time.jsp";
-		req.getRequestDispatcher(view).forward(req, resp);
+		String accept = req.getHeader("accept");
+
+		if(accept.contains("json")){
+			Map<String,Object> target = Map.of("now", formatted);
+			String json = new Gson().toJson(target);
+			resp.setContentType("application/json;charset=UTF-8");
+			resp.getWriter().print(json);
+		} else if(accept.contains("html")){
+			req.setAttribute("now", formatted);
+			String view ="/WEB-INF/views/hw02/world-time.jsp";
+			req.getRequestDispatcher(view).forward(req, resp);
+		} else {
+			resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+		}
 	}
 }
