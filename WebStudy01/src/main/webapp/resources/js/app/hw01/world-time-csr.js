@@ -27,16 +27,5 @@ document.addEventListener("DOMContentLoaded", () => {
         return option;
       });
       timeZoneSel.append(...tzOptions);
-
-      //   if (timeZones) {
-      //     document.getElementById("timezone").innerHTML = Object.entries(timeZones)
-      //       .map(([key, value]) => `<option value="${key}">${value}</option>`)
-      //       .join('');
-      //   }
     });
 });
-
-
-
-
-// document.addEventListener("DOMContentLoaded", () => {
