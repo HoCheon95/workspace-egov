@@ -63,6 +63,8 @@ public class WorldTimeJsonServlet extends HttpServlet{
 		String mime = "application/json;charset=UTF-8";
 		resp.setContentType(mime);
 		resp.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+		resp.setHeader("Access-Control-Allow-Methods", "*");
+		resp.setHeader("Access-Control-Allow-Headers", "*");
 		// try with resource 구문
 		try(
 			PrintWriter out = resp.getWriter();

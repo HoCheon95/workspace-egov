@@ -47,6 +47,15 @@ public class EchoServlet extends HttpServlet{
         // 2. 역직렬화 json -> native object
         EchoRequest reqDto = gson.fromJson(req.getReader(), EchoRequest.class);
 
+        // 사용자 데이터에 대한 검증
+        if (reqDto.getMessage() == null || reqDto.getLanguage() == null) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            Map<String, Object> errors = 
+                Map.of("status", HttpServletResponse.SC_BAD_REQUEST, "message", "프로퍼티가 검증을 통과하지 못했음.");
+            gson.toJson(errors, resp.getWriter());
+            return;
+        }
+
         // 3. 비즈니스 로직 객체 활용
         EchoResponse respDto = service.processEcho(reqDto);
 
