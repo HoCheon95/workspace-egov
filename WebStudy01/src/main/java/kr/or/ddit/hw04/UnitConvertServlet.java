@@ -14,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import kr.or.ddit.hw04.domain.Unit;
 import kr.or.ddit.hw04.domain.UnitType;
 import kr.or.ddit.hw04.dto.ConversionRequest;
@@ -24,9 +25,14 @@ import kr.or.ddit.hw04.service.UntiConversionService;
 import kr.or.ddit.hw04.validation.ConversionValidator;
 
 @WebServlet("/hw04/convert")
-public class UntiConvertServlet extends HttpServlet {
+public class UnitConvertServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        ConversionResponse respDto = (ConversionResponse) session.getAttribute("convertResult");
+        session.removeAttribute("convertResult"); // flash attribute
+        req.setAttribute("convertResult", respDto);
+
         Map<UnitType, List<Unit>> unitGroup = Arrays.stream(Unit.values())
                 .collect(Collectors.groupingBy(u -> {
                     System.out.println(u);
@@ -65,11 +71,33 @@ public class UntiConvertServlet extends HttpServlet {
             nativeTarget = new ErrorResponse(400, e.getMessage(), reqDto);
         }
 
-        if (status != 200) {
+        String accept = req.getHeader("accept");
+
+        if(accept.contains("json")) {
             resp.setStatus(status);
+            handleJson(nativeTarget, resp);
+            return;
         }
 
-        handleJson(nativeTarget, resp);
+        if(status!=200){
+            resp.sendError(status);
+            return;
+        }
+
+        if(accept.contains("html")) {
+            // req.setAttribute("convertResult", nativeTarget);
+            req.getSession().setAttribute("convertResult", nativeTarget);
+            handleHtml(req, resp);
+        } else {
+            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+        }
+    }
+
+    private void handleHtml(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // String view = "/WEB-INF/views/hw04/convert.jsp";
+        // req.getRequestDispatcher(view).forward(req, resp);
+        String location = req.getContextPath() + "/hw04/convert";
+        resp.sendRedirect(location);
     }
 
     private void handleJson(Object nativeTarget, HttpServletResponse resp) throws JsonIOException, IOException{

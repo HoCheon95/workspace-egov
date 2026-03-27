@@ -7,6 +7,9 @@
         <title>단위 변환기</title>
     </head>
     <body>
+        <div>
+            <h4>변환 처리 결과 : ${convertResult.formattedResult}</h4>
+        </div>
         <form method="post" action="convert">
             <input type="text" name="value" placeholder="변환 수치" />
 
