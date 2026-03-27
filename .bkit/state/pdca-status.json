@@ -1,9 +1,25 @@
 {
   "version": "3.0",
-  "lastUpdated": "2026-03-27T07:21:41.415Z",
-  "activeFeatures": [],
-  "primaryFeature": null,
-  "features": {},
+  "lastUpdated": "2026-03-27T10:52:19.617Z",
+  "activeFeatures": [
+    "hw05"
+  ],
+  "primaryFeature": "hw05",
+  "features": {
+    "hw05": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-27T10:52:19.616Z",
+        "lastUpdated": "2026-03-27T10:52:19.616Z"
+      },
+      "lastFile": "/home/ho/workspace/workspace-egov/WebStudy01/src/main/java/kr/or/ddit/hw05/CurrencyExchangeServlet.java"
+    }
+  },
   "pipeline": {
     "currentPhase": 1,
     "level": "Dynamic",
@@ -12,9 +28,16 @@
   "session": {
     "startedAt": "2026-03-27T07:21:40.412Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-03-27T07:21:41.415Z"
+    "lastActivity": "2026-03-27T10:52:19.617Z"
   },
-  "history": [],
+  "history": [
+    {
+      "timestamp": "2026-03-27T10:52:19.616Z",
+      "feature": "hw05",
+      "phase": "do",
+      "action": "updated"
+    }
+  ],
   "stateMachine": {
     "defaultWorkflow": "default",
     "activeWorkflows": {},
