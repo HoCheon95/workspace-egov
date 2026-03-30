@@ -3,6 +3,7 @@ package kr.or.ddit.hw05.service;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Currency;
+import java.util.List;
 import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,13 @@ import kr.or.ddit.hw05.dto.ExchangeResponse;
 class ExchangeServiceTest {
 
 	ExchangeService service = new ExchangeService();
+
+	@Test
+	void testCurrencies() {
+		List<Currency> currencies = service.getConvertableCurrencies();
+		assertEquals(2, currencies.size());
+		System.out.println(currencies);
+	}
 
 	@Test
 	void testExchange() {
