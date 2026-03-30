@@ -21,6 +21,7 @@ import kr.or.ddit.hw05.dto.ExchangeResponse;
 import kr.or.ddit.hw05.service.ExchangeService;
 import kr.or.ddit.hw05.validate.ExchangeValidator;
 
+// 브라우저에서 /hw05/exchange 주소로 접속하면 이 서블릿이 동작함
 @WebServlet("/hw05/exchange")
 public class CurrencyExchangeServlet extends HttpServlet{
     private ExchangeService service = new ExchangeService();
@@ -59,6 +60,10 @@ public class CurrencyExchangeServlet extends HttpServlet{
         }
     }
 
+    /**
+     * POST 요청 처리 - 사용자가 환전 폼을 작성하고 버튼을 눌렀을 때 실행됨
+     * 역할: 입력값을 받아 유효성 검사 → 환전 계산 → 결과를 JSP로 전달
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // 1. request content-tupe, accept 확인
