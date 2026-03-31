@@ -48,22 +48,4 @@ public class ProxyHeaderServlet extends HttpServlet {
         }
     }
 
-    // 환율 정보를 가져오는 전용 유틸리티 클래스 🔴
-    public class ExchangeRateParser {
-        public static double getRealTimeRate(String targetUrl) {
-            try {
-                // Jsoup을 사용하여 대상 URL의 HTML을 가져온다. 🔴
-                org.jsoup.nodes.Document doc = org.jsoup.Jsoup.connect(targetUrl).get();
-                // tbody의 첫 번째 행, 두 번째 열에서 환율 문자열을 추출한다. 🔴
-                String rateStr = doc.select("tbody tr").get(0).select("td").get(1).text();
-
-                // 쉼표 등 숫자 외의 문자를 제거하고 double로 변환한다. 🔴
-                return Double.parseDouble(rateStr.replaceAll("[^0-9.]", ""));
-            } catch (Exception e) {
-                // 파싱 실패 시 기본값(예: 1500)을 반환하거나 예외를 던진다. 🔴
-                return 1500.0;
-            }
-        }
-    }
-
 }

@@ -7,10 +7,12 @@
         <title>Document</title>
     </head>
     <body>
-        <form action="/hw02/image" method="get" onsubmit="return false;">
-            <select name="imageName" onchange="this.form.submit();">
+        <form action="/hw02/image" method="get">
+            <select name="imageName" onchange="this.form.requestSubmit();">
                 <c:forEach items="${imageFiles}" var="single">
-                    <option>${single}</option>
+                    
+                    <c:set var = "selected" value='${cookie.imageCookie.value eq single ? "selected" : ""}'/>
+                    <option ${selected}>${single}</option>
                 </c:forEach>
             </select>
         </form>

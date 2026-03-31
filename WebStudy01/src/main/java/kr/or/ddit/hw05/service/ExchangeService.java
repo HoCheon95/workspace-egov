@@ -1,5 +1,11 @@
 package kr.or.ddit.hw05.service;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.HashMap;
@@ -8,29 +14,64 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import javax.management.RuntimeErrorException;
+
+import org.apache.commons.lang3.function.Failable;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import kr.or.ddit.hw05.domain.ConvertablePair;
 import kr.or.ddit.hw05.dto.ExchangeRequest;
 import kr.or.ddit.hw05.dto.ExchangeResponse;
-import kr.or.ddit.hw06.ProxyHeaderServlet.ExchangeRateParser;
 
 public class ExchangeService {
     private double dynamicRate;
     @FunctionalInterface
     public interface Converter{
-        double convert(double amount, double rate);
+        double convert(double amount);
         static Converter identity(){
-            return (amount, rate) -> amount;
+            return amount -> amount;
         }
     }
 
-    // private static final double rate = 1500;
+    private static double rate;
+
+    public static double getRateFromNaver() {
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest req = HttpRequest.newBuilder()
+                        .GET()
+                        .uri(URI.create("https://finance.naver.com/marketindex/exchangeList.naver"))
+                        .header("accept", "text/html")
+                        .build();
+        HttpResponse<String> resp;
+        try {
+            resp = httpClient.send(req, BodyHandlers.ofString());
+            String respBody = resp.body();
+            NumberFormat formatter = NumberFormat.getNumberInstance(Locale.KOREA);
+            Document document = Jsoup.parse(respBody);
+            return document.select(".tit")
+                    .stream()
+                    .filter(el->el.text().contains("USD"))
+                    .findFirst()
+                    // .map(el->el.nextElementSibling())
+                    .map(el->el.parent())
+                    .map(p->p.selectFirst(".sale"))
+                    .map(s->s.text())
+                    .map(Failable.asFunction(t->formatter.parse(t).doubleValue()))
+                    .orElse(1500d);
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException();
+        }
+    }
+
     public static final Map<ConvertablePair, Converter> converterMap;
     static {
+        rate = getRateFromNaver();
         Currency won = Currency.getInstance("KRW");
         Currency dlla = Currency.getInstance("USD");
         converterMap = new HashMap<>();
-        converterMap.put(new ConvertablePair(won, dlla), (amount, rate) -> amount / rate);
-        converterMap.put(new ConvertablePair(dlla, won), (amount, rate) -> amount * rate);
+        converterMap.put(new ConvertablePair(won, dlla), amount -> amount / rate);
+        converterMap.put(new ConvertablePair(dlla, won), amount -> amount * rate);
         converterMap.put(new ConvertablePair(won, won), Converter.identity());
         converterMap.put(new ConvertablePair(dlla, dlla), Converter.identity());
     }
@@ -44,9 +85,6 @@ public class ExchangeService {
     }
 
     public ExchangeResponse exchange(ExchangeRequest reqDto, Locale locale) {
-        String targetUrl = "https://finance.naver.com/marketindex/exchangeList.naver";
-        this.dynamicRate = ExchangeRateParser.getRealTimeRate(targetUrl);
-
         double amount = reqDto.getAmount();
         Currency from = reqDto.getFrom();
         Currency to = reqDto.getTo();
@@ -56,7 +94,7 @@ public class ExchangeService {
             throw new IllegalArgumentException("환전 불가능한 화폐임.");
         }
 
-        double result = converter.convert(amount, this.dynamicRate);
+        double result = converter.convert(amount);
         NumberFormat formatter = NumberFormat.getCurrencyInstance(locale);
         formatter.setCurrency(to);
 
@@ -68,7 +106,7 @@ public class ExchangeService {
             .amount(amount)
             .from(from)
             .to(to)
-            .rate(this.dynamicRate)
+            .rate(rate)
             .result(result)
             .formattedResult(formatterdResult)
             .build();

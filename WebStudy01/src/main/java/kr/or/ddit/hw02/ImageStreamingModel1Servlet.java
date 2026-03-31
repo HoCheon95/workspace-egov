@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +30,14 @@ public class ImageStreamingModel1Servlet extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "%s 라는 이미지는 없음.".formatted(fileName));
             return;
         }
+
+        Cookie imageCookie = new Cookie("imageCookie", fileName);
+        imageCookie.setMaxAge(60*60*24*3);
+        // imageCookie.setPath(req.getContextPath());
+        imageCookie.setPath("/");
+        resp.addCookie(imageCookie);
+
+
         ServletContext application = getServletContext();
         String mime = application.getMimeType(fileName);
         resp.setContentType(mime);
