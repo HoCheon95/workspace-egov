@@ -42,8 +42,12 @@ public class CurrencyExchangeServlet extends HttpServlet{
 
         List<Currency> currencies = service.getConvertableCurrencies();
         req.setAttribute("currencies", currencies);
-        String view = "/WEB-INF/views/hw05/exchange.jsp";
-        req.getRequestDispatcher(view).forward(req, resp);
+
+        String logicalViewName = "hw05/exchange";
+        viewResolver.resolveViewName(logicalViewName, req, resp);
+
+        // String view = "/WEB-INF/views/hw05/exchange.jsp";
+        // req.getRequestDispatcher(view).forward(req, resp);
     }
 
     private ExchangeRequest getDtoFromParameters(HttpServletRequest req) {

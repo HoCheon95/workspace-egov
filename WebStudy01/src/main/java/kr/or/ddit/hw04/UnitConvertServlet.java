@@ -43,8 +43,12 @@ public class UnitConvertServlet extends HttpServlet {
                     return u.getType();
                 }));
         req.setAttribute("unitGroup", unitGroup);
-        String view = "/WEB-INF/views/hw04/convert.jsp";
-        req.getRequestDispatcher(view).forward(req, resp);
+
+        String logicalViewName = "hw04/convert";
+        viewResolver.resolveViewName(logicalViewName, req, resp); 
+
+        // String view = "/WEB-INF/views/hw04/convert.jsp";
+        // req.getRequestDispatcher(view).forward(req, resp);
     }
 
     @Override
