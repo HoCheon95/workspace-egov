@@ -29,15 +29,15 @@ public class MediaViewerServlet extends HttpServlet {
             File[] subFolders = rootFolder.listFiles(File::isDirectory);
 
             if (subFolders != null) {
-                // 🔴 Stream API와 Collectors.toMap을 사용하여 이중 for문을 하나의 파이프라인으로 처리한다
+                // Stream API와 Collectors.toMap을 사용하여 이중 for문을 하나의 파이프라인으로 처리한다
                 mediaMap = Arrays.stream(subFolders)
                         .collect(Collectors.toMap(
-                                File::getName, // 🔴 Map의 Key 값으로 폴더명을 지정한다
+                                File::getName, // Map의 Key 값으로 폴더명을 지정한다
                                 sub -> {
-                                    // 🔴 참고 코드처럼 list()와 람다식을 사용하여 하위 폴더 내의 '파일'만 배열로 추출한다
+                                    // 참고 코드처럼 list()와 람다식을 사용하여 하위 폴더 내의 '파일'만 배열로 추출한다
                                     String[] files = sub.list((dir, name) -> new File(dir, name).isFile());
 
-                                    // 🔴 파일이 없으면 빈 리스트를 반환하고, 있다면 Stream의 map()을 통해 '폴더명/파일명' 형태로 즉시 변환하여 List로
+                                    // 파일이 없으면 빈 리스트를 반환하고, 있다면 Stream의 map()을 통해 '폴더명/파일명' 형태로 즉시 변환하여 List로
                                     // 묶어준다
                                     return files == null ? Collections.emptyList()
                                             : Arrays.stream(files)

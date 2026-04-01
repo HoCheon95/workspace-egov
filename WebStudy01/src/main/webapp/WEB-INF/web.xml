@@ -14,4 +14,9 @@
     <servlet-name>DescriptionServlet</servlet-name>
     <url-pattern>/desc</url-pattern>
   </servlet-mapping>
+
+  <session-config>
+    <session-timeout>4</session-timeout>
+    <tracking-mode>COOKIE</tracking-mode>
+  </session-config>
 </web-app>

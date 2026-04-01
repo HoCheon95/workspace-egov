@@ -20,10 +20,13 @@ import kr.or.ddit.hw05.dto.ExchangeRequest;
 import kr.or.ddit.hw05.dto.ExchangeResponse;
 import kr.or.ddit.hw05.service.ExchangeService;
 import kr.or.ddit.hw05.validate.ExchangeValidator;
+import kr.or.ddit.mvc.ViewResolver;
+import kr.or.ddit.mvc.ViewResolverComposite;
 
 // 브라우저에서 /hw05/exchange 주소로 접속하면 이 서블릿이 동작함
 @WebServlet("/hw05/exchange")
 public class CurrencyExchangeServlet extends HttpServlet{
+    private ViewResolver viewResolver = new ViewResolverComposite();
     private ExchangeService service = new ExchangeService();
     private ExchangeValidator validator = new ExchangeValidator();
     private Gson gson = new Gson();
@@ -118,10 +121,16 @@ public class CurrencyExchangeServlet extends HttpServlet{
         resp.setContentType("application/json");
         gson.toJson(nativeTarget, resp.getWriter());
     }
+
+
+
     private void handleHtml(ExchangeResponse respDto, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         req.getSession().setAttribute(MODELNAME, respDto);
-        String location = req.getContextPath() + "/hw05/exchange";
-        resp.sendRedirect(location);
+        String logicalViewName = "redirect:/hw05/exchange";
+        viewResolver.resolveViewName(logicalViewName, req, resp);
+
+        // String location = req.getContextPath() + "/hw05/exchange";
+        // resp.sendRedirect(location);
 
         // req.setAttribute(MODELNAME, respDto);
         // String view = "/WEB-INF/views/hw05/exchange.jsp";

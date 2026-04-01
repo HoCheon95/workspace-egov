@@ -23,11 +23,15 @@ import kr.or.ddit.hw04.dto.ErrorResponse;
 import kr.or.ddit.hw04.exception.UnitConversionException;
 import kr.or.ddit.hw04.service.UntiConversionService;
 import kr.or.ddit.hw04.validation.ConversionValidator;
+import kr.or.ddit.mvc.ViewResolver;
+import kr.or.ddit.mvc.ViewResolverComposite;
 
 @WebServlet("/hw04/convert")
 public class UnitConvertServlet extends HttpServlet {
+    private ViewResolver viewResolver = new ViewResolverComposite();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
         HttpSession session = req.getSession();
         ConversionResponse respDto = (ConversionResponse) session.getAttribute("convertResult");
         session.removeAttribute("convertResult"); // flash attribute
@@ -96,8 +100,11 @@ public class UnitConvertServlet extends HttpServlet {
     private void handleHtml(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // String view = "/WEB-INF/views/hw04/convert.jsp";
         // req.getRequestDispatcher(view).forward(req, resp);
-        String location = req.getContextPath() + "/hw04/convert";
-        resp.sendRedirect(location);
+        String logicalViewName = "redirect:/hw04/convert";
+        viewResolver.resolveViewName(logicalViewName, req, resp);
+
+        // String location = req.getContextPath() + "/hw04/convert";
+        // resp.sendRedirect(location);
     }
 
     private void handleJson(Object nativeTarget, HttpServletResponse resp) throws JsonIOException, IOException{
