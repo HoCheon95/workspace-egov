@@ -25,7 +25,7 @@ import kr.or.ddit.mvc.ViewResolverComposite;
 
 // 브라우저에서 /hw05/exchange 주소로 접속하면 이 서블릿이 동작함
 @WebServlet("/hw05/exchange")
-public class CurrencyExchangeServlet extends HttpServlet{
+public class ExchangeServlet extends HttpServlet{
     private ViewResolver viewResolver = new ViewResolverComposite();
     private ExchangeService service = new ExchangeService();
     private ExchangeValidator validator = new ExchangeValidator();
@@ -73,7 +73,7 @@ public class CurrencyExchangeServlet extends HttpServlet{
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // 1. request content-tupe, accept 확인
+        // 1. request content-type, accept 확인
         String contentType = Optional.ofNullable(req.getContentType()).orElse("application/x-www-form-urlencoded");
         String accept = Optional.ofNullable(req.getHeader("accept")).orElse("text/html");
         // 2. 파라미터 혹은 json 수신
