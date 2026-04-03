@@ -20,7 +20,7 @@ public class WorldTimeModel2UIServlet extends HttpServlet {
         // 1. 데이터 수집 : JVM 지원 모든 로케일, JVM 지원 모든 시간대
         Locale[] locales = Locale.getAvailableLocales();
         Set<String> zoneSet = ZoneId.getAvailableZoneIds();
-
+        
         // 2. Locale[] -> localeMap, Set<String> -> zoneMap
         Map<String, String> localeMap = new HashMap<>();
         for (Locale locale : locales) {

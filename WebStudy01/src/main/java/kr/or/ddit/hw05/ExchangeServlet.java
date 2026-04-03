@@ -16,10 +16,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import kr.or.ddit.auth.Authentication;
 import kr.or.ddit.hw05.dto.ExchangeRequest;
 import kr.or.ddit.hw05.dto.ExchangeResponse;
 import kr.or.ddit.hw05.service.ExchangeService;
 import kr.or.ddit.hw05.validate.ExchangeValidator;
+import kr.or.ddit.member.dto.MemberDto;
 import kr.or.ddit.mvc.ViewResolver;
 import kr.or.ddit.mvc.ViewResolverComposite;
 

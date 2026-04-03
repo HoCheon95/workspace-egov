@@ -99,8 +99,10 @@ if pgrep -f 'org.apache.catalina.startup.Bootstrap' >/dev/null 2>&1; then
     log "Tomcat is already running. The updated context file should be detected automatically."
     log "If the new ROOT app does not appear immediately, restart Tomcat once."
 else
-    log "Tomcat is not running. Starting Tomcat."
-    "$STARTUP_SCRIPT"
+    log "Tomcat is not running. Starting Tomcat in debug mode."
+    export JPDA_ADDRESS=8000
+    export JPDA_TRANSPORT=dt_socket
+    "$TOMCAT_BASE/bin/catalina.sh" jpda start
 fi
 
 log "Development deployment is ready."

@@ -9,7 +9,7 @@
     </head>
     <body>
         <h1>세계 시간 서비스</h1>
-        <form method="GET" action="../../hw01/worldtime">
+        <form method="GET" action="../../hw02/worldtime">
             <label for="locale">로케일:</label>
             <select name="locale" id="locale">
                 <%
