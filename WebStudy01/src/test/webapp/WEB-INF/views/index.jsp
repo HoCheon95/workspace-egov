@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
-<%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
     <head>
@@ -9,11 +8,6 @@
     </head>
     <body>
         <h4>웰컴패키지</h4>
-        <a href="?Language=ko-KR">한국어</a>
-        <a href="?Language=en-US">영어</a>
-        <fmt:setLocale value="en-US"/>
-        <fmt:setBundle basename="kr.or.ddit.Messages"/>
-        <h1><fmt:message key="hi"/></h1>
         <%
             request.getUserPrincipal();
         %>

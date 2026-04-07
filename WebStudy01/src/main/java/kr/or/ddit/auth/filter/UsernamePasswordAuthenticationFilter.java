@@ -8,6 +8,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+
+import kr.or.ddit.auth.exception.AuthenticationException;
+import kr.or.ddit.auth.exception.BadCredentialException;
+import kr.or.ddit.auth.exception.UsernameNotFoundException;
 import kr.or.ddit.auth.service.AuthenticateService;
 import kr.or.ddit.member.dto.MemberDto;
 import org.apache.commons.lang3.StringUtils;
@@ -51,16 +55,17 @@ public class UsernamePasswordAuthenticationFilter extends HttpFilter {
                 lvn = loginFailureUrl;
             }
             else {
-                MemberDto authMember = authservice.authenticate(username, password);
-
-                if (authMember != null) {
-                	session.setAttribute("authMember", authMember);
-                    lvn = loginSuccessUrl;
-                }
-                else {
-                	session.setAttribute("message", "아이디나 비밀번호 오류, 확인하셈");
+                try {
+                    MemberDto authMember = authservice.authenticate(username, password);    
+                    if (authMember != null) {
+                        session.setAttribute("authMember", authMember);
+                        lvn = loginSuccessUrl;
+                    }
+                } catch (AuthenticationException e) {
+                    session.setAttribute("SECURITY_LAST_EXCEPTION", e);
                     lvn = loginFailureUrl;
                 }
+                
             }
             resp.sendRedirect(req.getContextPath() + lvn);
         }

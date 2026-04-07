@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>World Time Service</title>
+</head>
+<body>
+    <h1>세계 시간 서비스</h1>
+
+    <form id="timeForm">
+        <label for="locale">로케일 선택:</label>
+        <select name="locale" id="locale">
+            <option value="ko-KR">한국어</option>
+            <option value="en-US">영어</option>
+            <option value="ja-JP">일본어</option>
+        </select>
+        <br><br>
+        <label for="timezone">타임존 선택:</label>
+        <select name="timezone" id="timezone">
+            <option value="Asia/Seoul">서울</option>
+            <option value="America/New_York">뉴욕</option>
+            <option value="Europe/London">런던</option>
+        </select>
+        <br><br>
+        <button type="submit">조회하기</button>
+    </form>
+
+    <div class="result-area">
+        <h3>결과 확인</h3>
+        <div id="timeDisplay">시간 확인 버튼을 눌러주세요.</div>
+    </div>
+
+    <script>
+        // 바닐라 JS로 서블릿과 통신하는 로직
+        document.getElementById('timeForm').addEventListener('submit', function(event){
+            // 1. 폼의 기본 제출 동작(페이지 이동)을 막는다.
+            event.preventDefault();
+
+            // 2. 선택된 값들을 가져온다.
+            const locale = document.getElementById('locale').value;
+            const timezone = document.getElementById('timezone').value;
+
+            // 3. 서블릿 경로 설정
+            // 서블릿의 @WebServlet("/hw01/worldtime/json") 설정에 맞춤
+            const url = `../../../hw01/worldtime/json?locale=${locale}&timezone=${timezone}`;
+
+            // 4. Fetch API를 이용한 비동기 요청
+            fetch(url)
+                .then(response => {
+                    if(!response.ok) {
+                        throw new Error(`네트워크 응답에 문제가 있습니다.`);
+                    }
+                    return response.json(); // 서버에서 보낸 JSON 데이터를 파싱한다.
+                })
+                .then(data => {
+                    // 5. 서버에서 받은 JSON 데이터를 화면에 출력한다.
+                    // Java 서블릿의 Map.of("now", formatted, ...) 구조에 맞춤
+                    document.getElementById('timeDisplay').innerHTML = `
+                        <strong>현재 시간:</strong> ${data.now} <br>
+                        <strong>적용 로케일:</strong> ${data.locale} <br>
+                        <strong>타임존:</strong> ${data.timezone}
+                    `;
+                })
+                .catch(error => {
+                    console.log('Error:', error);
+                    document.getElementById('timeDisplay').innerHTML = 
+                        `<span class="error">오류가 발생했습니다: ${error.message}</span>`;
+                });
+        });
+    </script>
+</body>
+</html>
