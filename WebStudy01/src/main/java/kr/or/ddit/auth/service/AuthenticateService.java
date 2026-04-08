@@ -4,6 +4,7 @@ import kr.or.ddit.auth.exception.AuthenticationException;
 import kr.or.ddit.auth.exception.BadCredentialException;
 import kr.or.ddit.auth.exception.UsernameNotFoundException;
 import kr.or.ddit.member.dao.MemberDao;
+import kr.or.ddit.member.dao.MemberDaoImpl;
 import kr.or.ddit.member.dao.MemberDaoInMemoryImpl;
 import kr.or.ddit.member.dto.MemberDto;
 
@@ -12,7 +13,7 @@ import kr.or.ddit.member.dto.MemberDto;
  */
 public class AuthenticateService {
 
-    private MemberDao dao = new MemberDaoInMemoryImpl();
+    private MemberDao dao = new MemberDaoImpl();
 
     /**
      * 
