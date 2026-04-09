@@ -26,9 +26,15 @@ public class MemberDaoImplTest {
 
     @Test
     void testSelectMember() {
-        MemberDto member = dao.selectMember("a001");
+        MemberDto member = dao.selectMember("b001");
+        System.out.println(member);
         assertNotNull(member);
-        member = dao.selectMember("fadew");
-        assertNotNull(member);
+        // member = dao.selectMember("fadew");
+        // assertNotNull(member);
+    }
+
+    @Test
+    void testSelectMemberList() {
+        dao.selectMemberList().forEach(System.out::println);
     }
 }

@@ -1,22 +1,13 @@
 package kr.or.ddit;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.ResourceBundle;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,15 +29,20 @@ import kr.or.ddit.props.dto.DataBasePropertyDto;
  */
 public class jdbcCodeTest {
 
-    @BeforeAll
+    @BeforeAll // 모든 테스트 케이스 실행 전 한 번만 실행되는 메서드
     static void beforeAll() {
         System.out.println("==================== before all ====================");
 
     }
 
-    @BeforeEach
-    void beforeEach() {
-        System.out.println("==================== before each ====================");
+    @BeforeEach // 각 테스트 케이스 실행 전마다 실행되는 메서드
+    void setUp() {
+        System.out.println("==================== before each : 테스트 데이터 준비 ====================");
+    }
+
+    @AfterEach
+    void tearDown() {
+        System.out.println("==================== after each : 테스트 데이터 정리(rollback) ====================");
     }
 
     @Test

@@ -24,12 +24,16 @@
             ${pageContext.request.userPrincipal.name } <a href="<c:url value='/logout'/>">로그아웃</a>
         </c:if>
         <ul>
+
             <li>
                 <a href="${pageContext.request.contextPath }/hw02/worldtime">공용 세계시간</a>
             </li>
             <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN') }">
                 <li>
                     <a href='<c:url value="/hw05/exchange"/>'>관리자용 환전서비스</a>
+                </li>
+                <li>
+                    <a href="<c:url value='/admin/member-list'/>">관리자용 회원 목록</a>
                 </li>
             </c:if>
             <c:if test="${not empty pageContext.request.userPrincipal }">

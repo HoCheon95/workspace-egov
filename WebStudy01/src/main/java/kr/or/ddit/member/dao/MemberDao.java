@@ -1,5 +1,7 @@
 package kr.or.ddit.member.dao;
 
+import java.util.List;
+
 import kr.or.ddit.member.dto.MemberDto;
 
 /**
@@ -7,4 +9,5 @@ import kr.or.ddit.member.dto.MemberDto;
  */
 public interface MemberDao {
     MemberDto selectMember(String username);
+    List<MemberDto> selectMemberList();
 }
