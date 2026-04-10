@@ -11,6 +11,14 @@ public class MemberDaoImplTest {
     MemberDaoImpl dao = new MemberDaoImpl();
 
     @Test
+    void testUpdatePassword() {
+        int rowcnt = dao.updatePassword("a001", "java");
+        assertEquals(1, rowcnt);
+        dao.selectMember("a001").getMemPass();
+        assertEquals("java", dao.selectMember("a001").getMemPass());
+    }
+
+    @Test
     void testSelectDummy() {
         String username = "a001";
         String password = "asd' or '1' ='1'; delete from member where '1'='1'";

@@ -10,4 +10,5 @@ import kr.or.ddit.member.dto.MemberDto;
 public interface MemberDao {
     MemberDto selectMember(String username);
     List<MemberDto> selectMemberList();
+    int updatePassword(String username, String password);
 }

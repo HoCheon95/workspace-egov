@@ -7,37 +7,36 @@ import java.util.ResourceBundle;
 
 import javax.sql.DataSource;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 import oracle.jdbc.datasource.impl.OracleDataSource;
 
-public class ConnectionFactory {
+public class ConnectionFactoryWithPooling {
     static String url;
     static String username;
     static String password;
     static DataSource dataSource;
 
     static {
-        // try {
-        //     Class.forName("oracle.jdbc.OracleDriver");
-        // } catch (ClassNotFoundException e) {
-        //     throw new RuntimeException(e);
-        // }
-
         String baseName = "kr.or.ddit.db.DbInfo";
         ResourceBundle bundle = ResourceBundle.getBundle(baseName);
         url = bundle.getString("url");
         username = bundle.getString("username");
         password = bundle.getString("password");
 
-        try {
-            OracleDataSource ods = new OracleDataSource();
-            dataSource = ods;
-            ods.setURL(url);
-            ods.setUser(username);
-            ods.setPassword(password);
+        HikariDataSource hds = new HikariDataSource();
+        dataSource = hds;
+        hds.setJdbcUrl(url);
+        hds.setUsername(username);
+        hds.setPassword(password);
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        int maxPoolSize = Integer.parseInt(bundle.getString("maxPoolSize"));
+        int minIdle = Integer.parseInt(bundle.getString("minIdle"));
+        long connectionTimeoutMs = Long.parseLong(bundle.getString("connectionTimeoutMs"));
+
+        hds.setMaximumPoolSize(maxPoolSize);
+        hds.setMinimumIdle(minIdle);
+        hds.setConnectionTimeout(connectionTimeoutMs);
     }
 
     public static Connection createConnection() throws SQLException {

@@ -33,5 +33,10 @@ public class MemberDaoInMemoryImpl implements MemberDao{
     public List<MemberDto> selectMemberList() {
         return memberTable.values().stream().toList();
     }
+
+    @Override
+    public int updatePassword(String username, String password) {
+        throw new UnsupportedOperationException("Unimplemented method 'updatePassword'");
+    }
     
 }

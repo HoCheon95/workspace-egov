@@ -91,4 +91,17 @@ public class MemberDaoImpl implements MemberDao {
                     .build();
         }));
     }
+
+    @Override
+    public int updatePassword(String username, String password) {
+        String sql = """
+                UPDATE MEMBER
+                SET MEM_PASS = ?
+                WHERE MEM_ID = ?
+                """;
+        return jdbcTemplate.update(sql, Failable.asConsumer(pstmt->{
+            pstmt.setString(1, password);
+            pstmt.setString(2, username);
+        }));
+    }
 }

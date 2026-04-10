@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import kr.or.ddit.db.ConnectionFactory;
+import kr.or.ddit.db.ConnectionFactoryWithPooling;
 
 public class JdbcTemplate {
     public final int update(
@@ -19,7 +20,7 @@ public class JdbcTemplate {
         // 1. 쿼리 작성 **
         try (
             // 2. Connection 생성
-            Connection conn = ConnectionFactory.createConnection();
+            Connection conn = ConnectionFactoryWithPooling.createConnection();
             // 3. 쿼리 객체 새성
             PreparedStatement pstmt = conn.prepareStatement(sql);
         ){

@@ -1,4 +1,4 @@
-package kr.or.ddit;
+package kr.or.ddit.jdbc;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -32,7 +32,6 @@ public class jdbcCodeTest {
     @BeforeAll // 모든 테스트 케이스 실행 전 한 번만 실행되는 메서드
     static void beforeAll() {
         System.out.println("==================== before all ====================");
-
     }
 
     @BeforeEach // 각 테스트 케이스 실행 전마다 실행되는 메서드
