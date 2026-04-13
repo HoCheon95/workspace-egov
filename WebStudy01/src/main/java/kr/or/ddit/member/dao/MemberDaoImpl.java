@@ -1,16 +1,34 @@
 package kr.or.ddit.member.dao;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.function.Failable;
 
-import kr.or.ddit.db.template.JdbcTemplate;
+import kr.or.ddit.db.template.JdbcTemplateWithDataMapper;
 import kr.or.ddit.member.dto.MemberDto;
 
 public class MemberDaoImpl implements MemberDao {
-    private JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    private JdbcTemplateWithDataMapper jdbcTemplate = new JdbcTemplateWithDataMapper();
+
+    private Function<ResultSet, MemberDto> rowMapper = Failable.asFunction(rs->{
+        String roleName = rs.getString("ROLE_NAME");
+        MemberDto member = MemberDto.builder()
+                    .memId(rs.getString("MEM_ID"))
+                    .memPass(rs.getString("MEM_PASS"))
+                    .memName(rs.getString("MEM_NAME"))
+                    .memRoles(new ArrayList<>())
+                    .build();
+            
+        // 한 명의 회원이 여러 권한을 가질 수 있으므로, 조회된 권한명을 리스트에 계속 추가한다
+        if (StringUtils.isNotBlank(roleName)) {
+            member.getMemRoles().add(roleName);
+        }
+        return member;
+    });
 
     @Override
     public List<MemberDto> selectMemberList() {
@@ -19,21 +37,7 @@ public class MemberDaoImpl implements MemberDao {
             SELECT M.MEM_ID, MEM_PASS, MEM_NAME, ROLE_NAME
             FROM MEMBER M LEFT OUTER JOIN MEMBER_ROLE MR ON(M.MEM_ID = MR.MEM_ID)
         """;
-        return jdbcTemplate.queryForList(sql, null, Failable.asFunction(rs->{
-            String roleName = rs.getString("ROLE_NAME");
-            MemberDto member = MemberDto.builder()
-                        .memId(rs.getString("MEM_ID"))
-                        .memPass(rs.getString("MEM_PASS"))
-                        .memName(rs.getString("MEM_NAME"))
-                        .memRoles(new ArrayList<>())
-                        .build();
-                
-            // 한 명의 회원이 여러 권한을 가질 수 있으므로, 조회된 권한명을 리스트에 계속 추가한다
-            if (StringUtils.isNotBlank(roleName)) {
-                member.getMemRoles().add(roleName);
-            }
-            return member;
-        }));
+        return jdbcTemplate.queryForList(sql, null, rowMapper);
     }
 
     // n 1 ~ 7 번까지 단계중, 1, 4, 6번에서 차이가 발생함.

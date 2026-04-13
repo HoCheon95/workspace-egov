@@ -60,7 +60,7 @@ public class JdbcTemplate {
         List<T> list = new ArrayList<>();
         try (
             // 2. Connection 생성
-            Connection conn = ConnectionFactory.createConnection();
+            Connection conn = ConnectionFactoryWithPooling.createConnection();
             // 3. 쿼리 객체 새성
             PreparedStatement pstmt = conn.prepareStatement(sql);
         ) {

@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.apache.commons.lang3.function.Failable;
 
-import kr.or.ddit.db.template.JdbcTemplate;
+import kr.or.ddit.db.template.JdbcTemplateWithDataMapper;
 import kr.or.ddit.dummy.dto.DummyDto;
 
 public class DummyDaoImpleCase3 implements DummyDao {
 
-    JdbcTemplate tmpl = new JdbcTemplate();
+    JdbcTemplateWithDataMapper tmpl = new JdbcTemplateWithDataMapper();
 
     @Override
     public int insertDummy(DummyDto dummy) {
@@ -34,10 +34,10 @@ public class DummyDaoImpleCase3 implements DummyDao {
                 sql,
                 Failable.asConsumer(pstmt->pstmt.setInt(1, col1)),
                 Failable.asFunction(rs->{
-                DummyDto one = new DummyDto();
-                one.setCol1(rs.getInt("COL1"));
-                one.setCol2(rs.getString("COL2"));
-                return one;
+                    DummyDto one = new DummyDto();
+                    one.setCol1(rs.getInt("COL1"));
+                    one.setCol2(rs.getString("COL2"));
+                    return one;
             })
         );
     }

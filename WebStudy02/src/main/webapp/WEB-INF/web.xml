@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="https://jakarta.ee/xml/ns/jakartaee"
+  xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+  version="6.0">
+  <display-name>WebStudy02</display-name>
+  <welcome-file-list>
+    <welcome-file>index.do</welcome-file>
+  </welcome-file-list>
+
+  <!-- <filter>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <filter-class>kr.or.ddit.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>WorldTimeTrickFilter</filter-name>
+    <filter-class>kr.or.ddit.filter.WorldTimeTrickFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>WorldTimeTrickFilter</filter-name>
+    <url-pattern>/hw02/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>BlindFilter</filter-name>
+    <filter-class>kr.or.ddit.filter.BlindFilter</filter-class>
+    <init-param>
+      <param-name>whitelist</param-name>
+      <param-value>127.0.0.1,0:0:0:0:0:0:0:1, 192.168.145.44</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>BlindFilter</filter-name>
+    <url-pattern>/hw02/*</url-pattern>
+  </filter-mapping> -->
+
+  <filter>
+    <filter-name>AuthenticationHolderFilter</filter-name>
+    <filter-class>kr.or.ddit.auth.filter.AuthenticationHolderFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthenticationHolderFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>LogoutFilter</filter-name>
+    <filter-class>kr.or.ddit.auth.filter.LogoutFilter</filter-class>
+    <init-param>
+      <param-name>logout-url</param-name>
+      <param-value>/logout</param-value>
+    </init-param>
+    <init-param>
+      <param-name>logout-success-url</param-name>
+      <param-value>/</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>LogoutFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>kr.or.ddit.auth.filter.UsernamePasswordAuthenticationFilter</filter-class>
+    <init-param>
+      <param-name>login-page</param-name>
+      <param-value>/login</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login-process-url</param-name>
+      <param-value>/login</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login-failure-url</param-name>
+      <param-value>/login?error=</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login-success-url</param-name>
+      <param-value>/</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>AuthorizationFilter</filter-name>
+    <filter-class>kr.or.ddit.auth.filter.AuthorizationFilter</filter-class>
+    <init-param>
+      <param-name>location</param-name>
+      <param-value>kr.or.ddit.SecuredResources</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthorizationFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>DescriptionServlet</servlet-name>
+    <servlet-class>kr.or.ddit.servlet01.DescriptionServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DescriptionServlet</servlet-name>
+    <url-pattern>/desc</url-pattern>
+  </servlet-mapping>
+
+  <session-config>
+    <session-timeout>4</session-timeout>
+    <tracking-mode>COOKIE</tracking-mode>
+  </session-config>
+
+  <!-- <security-role>
+    <role-name>ROLE_ADMIN</role-name>
+  </security-role>
+  <security-role>
+    <role-name>ROLE_USER</role-name>
+  </security-role> -->
+
+  <!-- <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Convert Service</web-resource-name>
+      <url-pattern>/hw04/convert</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>ROLE_USER</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Exchange Service</web-resource-name>
+      <url-pattern>/hw05/exchange</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>ROLE_ADMIN</role-name>
+    </auth-constraint>
+  </security-constraint> -->
+
+  <!-- <login-config>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+      <form-login-page>/07/tomcat-login.jsp</form-login-page>
+      <form-error-page>/07/tomcat-error.jsp</form-error-page>
+    </form-login-config>
+  </login-config> -->
+</web-app>

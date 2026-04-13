@@ -1,0 +1,53 @@
+/**
+ * World Time Content Negotiation JS
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  const localeSel = document.getElementById("locale");
+  const timeZoneSel = document.getElementById("timezone");
+  const asyncForm = document.getElementById("async-form");
+  const resultArea = document.querySelector("#result");
+
+  // Load options for locale and timezone
+  fetch("../../../hw03/worldtime/options")
+    .then((resp) => resp.json())
+    .then(({ locales, timeZones }) => {
+      const options = [];
+      for (let code in locales) {
+        const option = document.createElement("option");
+        option.value = code;
+        option.label = locales[code];
+        options.push(option);
+      }
+      localeSel.append(...options);
+
+      const tzOptions = Object.entries(timeZones).map((array) => {
+        const option = document.createElement("option");
+        option.value = array[0];
+        option.label = array[1];
+        return option;
+      });
+      timeZoneSel.append(...tzOptions);
+    });
+
+  // Handle form submission asynchronously
+  asyncForm.addEventListener("submit", (event) => {
+    event.preventDefault(); // Prevent default form submission
+
+    const locale = localeSel.value;
+    const timezone = timeZoneSel.value;
+
+    fetch(`/hw02/worldtime?locale=${locale}&timezone=${timezone}`, {
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+      .then((resp) => resp.json())
+      .then(({ now }) => {
+        resultArea.innerHTML = `<h1>${now}</h1>`;
+      })
+      .catch((error) => {
+        console.error('Error fetching time:', error);
+        resultArea.innerHTML = '<p>시간을 가져오는 중 오류가 발생했습니다.</p>';
+      });
+  });
+});
