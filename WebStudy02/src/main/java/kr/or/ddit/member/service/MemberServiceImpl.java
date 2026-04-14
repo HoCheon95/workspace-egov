@@ -4,13 +4,13 @@ import java.util.List;
 
 import kr.or.ddit.auth.exception.AuthenticationException;
 import kr.or.ddit.auth.service.AuthenticateService;
-import kr.or.ddit.member.dao.MemberDao;
-import kr.or.ddit.member.dao.MemberDaoImpl;
 import kr.or.ddit.member.dto.MemberDto;
+import kr.or.ddit.member.mapper.MemberMapper;
+import kr.or.ddit.mybatis.MapperProxyGenerator;
 
 public class MemberServiceImpl implements MemberService{
 
-    private MemberDao dao = new MemberDaoImpl();
+    private MemberMapper dao = new MapperProxyGenerator().generateMapperProxy(MemberMapper.class);
     private AuthenticateService authService = new AuthenticateService();
 
     @Override

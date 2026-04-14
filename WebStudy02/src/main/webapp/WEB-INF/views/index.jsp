@@ -9,13 +9,8 @@
     </head>
     <body>
 
-    <span>web study 2</span>
+    <span>Web Study 2</span>
         <h4>웰컴패키지</h4>
-        <a href="?Language=ko-KR">한국어</a>
-        <a href="?Language=en-US">영어</a>
-        <fmt:setLocale value="en-US"/>
-        <fmt:setBundle basename="kr.or.ddit.Messages"/>
-        <h1><fmt:message key="hi"/></h1>
         <%
             request.getUserPrincipal();
         %>
@@ -26,22 +21,15 @@
             ${pageContext.request.userPrincipal.name } <a href="<c:url value='/logout'/>">로그아웃</a>
         </c:if>
         <ul>
-
-            <li>
-                <a href="${pageContext.request.contextPath }/hw02/worldtime">공용 세계시간</a>
-            </li>
             <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN') }">
-                <li>
-                    <a href='<c:url value="/hw05/exchange"/>'>관리자용 환전서비스</a>
-                </li>
                 <li>
                     <a href="<c:url value='/admin/member-list'/>">관리자용 회원 목록</a>
                 </li>
             </c:if>
             <c:if test="${not empty pageContext.request.userPrincipal }">
                 <li>
-                    <a href='<c:url value="/hw04/convert"/>'>회원용 단위변환서비스</a>
-                </li>
+                    <a href="<c:url value='/member/change-password'/>">비밀번호 변경</a>
+                </li> 
             </c:if>
         </ul>
     </body>

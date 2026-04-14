@@ -9,7 +9,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class CustomSqlSessionFactoryBuilder {
-    private static SqlSessionFactory sqlSessionFactory;
+    // SqlSessionFactory는 sql 하나당 하나씩 존재
+    private static final SqlSessionFactory sqlSessionFactory;
     static {
         String configFile = "kr/or/ddit/mybatis/Configuration.xml";
         try(

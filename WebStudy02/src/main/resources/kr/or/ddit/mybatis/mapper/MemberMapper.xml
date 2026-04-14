@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Member">
+<mapper namespace="kr.or.ddit.member.mapper.MemberMapper">
     <resultMap id="memberMap" type="kr.or.ddit.member.dto.MemberDto" autoMapping="true">
         <id property="memId" column="MEM_ID"/>
         <collection property="memRoles" javaType="java.util.List" ofType="string">
@@ -8,9 +8,25 @@
         </collection>
     </resultMap>
 
+    <!-- selectMember -->
     <select id="selectMember" resultMap="memberMap">
         SELECT M.MEM_ID, MEM_PASS, MEM_NAME, ROLE_NAME
         FROM MEMBER M LEFT OUTER JOIN MEMBER_ROLE MR ON(M.MEM_ID = MR.MEM_ID)
         WHERE M.MEM_ID = #{memId}
     </select>
+
+    <!-- selectMemberList -->
+    <select id="selectMemberList" resultMap="memberMap">
+        SELECT M.MEM_ID, MEM_PASS, MEM_NAME, ROLE_NAME
+        , MEM_HP, MEM_ADD1, MEM_MAIL
+        FROM MEMBER M LEFT OUTER JOIN MEMBER_ROLE MR ON(M.MEM_ID = MR.MEM_ID)
+    </select>
+
+    <!-- updatePassword --> 
+    <update id="updatePassword">
+        UPDATE MEMBER 
+        SET
+            MEM_PASS = #{password}
+        WHERE MEM_ID = #{username}
+    </update>
 </mapper>

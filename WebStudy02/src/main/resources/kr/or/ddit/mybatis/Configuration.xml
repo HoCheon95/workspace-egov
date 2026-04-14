@@ -8,11 +8,15 @@
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC" />
+            <!-- 커넥션을 생성하기 위해서 작성한 코드-->
             <dataSource type="POOLED">
                 <property name="driver" value="${driverClassName}" />
                 <property name="url" value="${url}" />
                 <property name="username" value="${username}" />
                 <property name="password" value="${password}" />
+                <property name="poolMaximumActiveConnections" value="${maxPoolSize}" />
+                <property name="poolMaximumIdleConnections" value="${minIdle}" />
+                <property name="poolTimeToWait" value="${connectionTimeoutMs}" />
             </dataSource>
         </environment>
     </environments>

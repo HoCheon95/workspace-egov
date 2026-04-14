@@ -3,19 +3,18 @@ package kr.or.ddit.auth.service;
 import kr.or.ddit.auth.exception.AuthenticationException;
 import kr.or.ddit.auth.exception.BadCredentialException;
 import kr.or.ddit.auth.exception.UsernameNotFoundException;
-import kr.or.ddit.member.dao.MemberDao;
-import kr.or.ddit.member.dao.MemberDaoImpl;
 import kr.or.ddit.member.dto.MemberDto;
+import kr.or.ddit.member.mapper.MemberMapper;
+import kr.or.ddit.mybatis.MapperProxyGenerator;
 
 /**
  * 사용자의 신원 확인(인증)을 담당할 business logic layer
  */
 public class AuthenticateService {
 
-    private MemberDao dao = new MemberDaoImpl();
+    private MemberMapper dao = new MapperProxyGenerator().generateMapperProxy(MemberMapper.class);
 
     /**
-     * 
      * @param username
      * @param password
      * @return

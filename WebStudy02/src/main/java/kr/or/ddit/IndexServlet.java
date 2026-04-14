@@ -19,5 +19,4 @@ public class IndexServlet extends HttpServlet{
         String lvn = "index";
         viewResolver.resolveViewName(lvn, req, resp);
     }
-    
 }

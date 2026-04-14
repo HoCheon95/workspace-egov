@@ -10,8 +10,6 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 import kr.or.ddit.auth.exception.AuthenticationException;
-import kr.or.ddit.auth.exception.BadCredentialException;
-import kr.or.ddit.auth.exception.UsernameNotFoundException;
 import kr.or.ddit.auth.service.AuthenticateService;
 import kr.or.ddit.member.dto.MemberDto;
 import org.apache.commons.lang3.StringUtils;
