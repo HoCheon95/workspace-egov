@@ -30,6 +30,9 @@
                 <li>
                     <a href="<c:url value='/member/change-password'/>">비밀번호 변경</a>
                 </li> 
+                <li>
+                    <a href="<c:url value='/member/mypage'/>">마이페이지</a>
+                </li> 
             </c:if>
         </ul>
     </body>

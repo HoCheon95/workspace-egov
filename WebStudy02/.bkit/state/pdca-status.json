@@ -1,9 +1,39 @@
 {
   "version": "3.0",
-  "lastUpdated": "2026-03-27T10:36:48.032Z",
-  "activeFeatures": [],
-  "primaryFeature": null,
-  "features": {},
+  "lastUpdated": "2026-04-15T06:52:38.120Z",
+  "activeFeatures": [
+    "service",
+    "controller"
+  ],
+  "primaryFeature": "service",
+  "features": {
+    "service": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-04-15T06:51:48.050Z",
+        "lastUpdated": "2026-04-15T06:51:48.050Z"
+      },
+      "lastFile": "/home/ho/workspace/workspace-egov/WebStudy02/src/main/java/kr/or/ddit/member/service/MemberServiceImpl.java"
+    },
+    "controller": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-04-15T06:52:38.120Z",
+        "lastUpdated": "2026-04-15T06:52:38.120Z"
+      },
+      "lastFile": "/home/ho/workspace/workspace-egov/WebStudy02/src/main/java/kr/or/ddit/member/controller/MypageServlet.java"
+    }
+  },
   "pipeline": {
     "currentPhase": 1,
     "level": "Dynamic",
@@ -12,9 +42,22 @@
   "session": {
     "startedAt": "2026-03-27T10:36:29.848Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-03-27T10:36:48.032Z"
+    "lastActivity": "2026-04-15T06:52:38.120Z"
   },
-  "history": [],
+  "history": [
+    {
+      "timestamp": "2026-04-15T06:51:48.050Z",
+      "feature": "service",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-15T06:52:38.120Z",
+      "feature": "controller",
+      "phase": "do",
+      "action": "updated"
+    }
+  ],
   "stateMachine": {
     "defaultWorkflow": "default",
     "activeWorkflows": {},
