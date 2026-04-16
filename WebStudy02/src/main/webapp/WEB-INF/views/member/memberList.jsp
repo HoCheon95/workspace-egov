@@ -4,7 +4,12 @@
 <html lang="ko">
     <head>
         <meta charset="UTF-8">
-        <title>회원 목록</title>
+        <title>회원 목록 조회</title>
+
+        <script text="text/javascript">
+            alert("회원 목록!");
+        </script>
+
         <style>
             table { border-collapse: collapse; width: 100%; }
             th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
@@ -12,11 +17,9 @@
         </style>
     </head>
     <body>
-        <h3>회원 목록</h3>
-        
         <%--  테이블 태그 시작 (전체를 감싸야 한다) --%>
-        <table> 
-            <thead>
+        <table class="table table-striped"> 
+            <thead class="thead-dark">
                 <tr>  <%--  th는 반드시 tr로 감싸야 한다 --%>
                     <th>회원명</th>
                     <th>휴대폰</th>

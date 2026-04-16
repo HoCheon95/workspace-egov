@@ -16,6 +16,7 @@
         %>
         <c:if test="${empty pageContext.request.userPrincipal }">
             <a href="<c:url value='/login'/>">로그인</a>
+            <a href="<c:url value='/member/regist'/>">회원가입</a>
         </c:if>
         <c:if test="${not empty pageContext.request.userPrincipal }">
             ${pageContext.request.userPrincipal.name } <a href="<c:url value='/logout'/>">로그아웃</a>

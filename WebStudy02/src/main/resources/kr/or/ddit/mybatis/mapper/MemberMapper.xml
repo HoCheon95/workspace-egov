@@ -19,12 +19,64 @@
     </select>
 
     <!-- selectMemberList -->
-    <select id="selectMemberList" resultMap="memberMap"> SELECT M.MEM_ID, MEM_PASS, MEM_NAME,
-        ROLE_NAME , MEM_HP, MEM_ADD1, MEM_MAIL FROM MEMBER M LEFT OUTER JOIN MEMBER_ROLE MR
+    <select id="selectMemberList" resultMap="memberMap"> 
+        SELECT M.MEM_ID, MEM_PASS, MEM_NAME,
+        ROLE_NAME , MEM_HP, MEM_ADD1, MEM_MAIL 
+        FROM MEMBER M LEFT OUTER JOIN MEMBER_ROLE MR
         ON(M.MEM_ID = MR.MEM_ID) </select>
 
     <!-- updatePassword -->
-    <update id="updatePassword"> UPDATE MEMBER SET MEM_PASS = #{password} WHERE MEM_ID = #{username} </update>
+    <update id="updatePassword"> 
+        UPDATE MEMBER SET MEM_PASS = #{password} 
+        WHERE MEM_ID = #{username} 
+    </update>
 
 
+    <!-- insertMember --> 
+    <insert id="insertMember">
+        INSERT INTO MEMBER (
+            MEM_ID,
+            MEM_PASS,
+            MEM_NAME,
+            MEM_REGNO1,
+            MEM_REGNO2,
+            MEM_BIR,
+            MEM_ZIP,
+            MEM_ADD1,
+            MEM_ADD2,
+            MEM_HOMETEL,
+            MEM_COMTEL,
+            MEM_HP,
+            MEM_MAIL,
+            MEM_JOB,
+            MEM_LIKE,
+            MEM_MEMORIAL,
+            MEM_MEMORIALDAY
+        )
+        VALUES (
+            #{memId},
+            #{memPass},
+            #{memName},
+            #{memRegno1, jdbcType=VARCHAR},
+            #{memRegno2},
+            #{memBir},
+            #{memZip},
+            #{memAdd1},
+            #{memAdd2},
+            #{memHometel},
+            #{memComtel},
+            #{memHp},
+            #{memMail},
+            #{memJob},
+            #{memLike},
+            #{memMemorial},
+            #{memMemorialday}
+        )
+    </insert>
+
+    <!-- insertMemberRole --> 
+    <insert id="insertMemberRole" parameterType="string">
+        INSERT INTO MEMBER_ROLE (MEM_ID, ROLE_NAME)
+        VALUES (#{username}, 'ROLE_USER')
+    </insert>
 </mapper>

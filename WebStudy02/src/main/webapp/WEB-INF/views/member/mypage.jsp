@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>회원 상세 정보</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     
     <style>
@@ -20,6 +21,10 @@
         .badge-role { padding: 0.5em 0.8em; border-radius: 6px; font-weight: 500; }
         .status-active { color: #10b981; background-color: #ecfdf5; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; }
     </style>
+
+    <script type="text/javascript">
+        alert("마이페이지임!");
+    </script>
 </head>
 <body>
 
@@ -129,6 +134,6 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

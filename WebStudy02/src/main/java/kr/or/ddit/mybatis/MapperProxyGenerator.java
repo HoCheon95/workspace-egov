@@ -14,7 +14,7 @@ public class MapperProxyGenerator {
             if(SqlSessionContext.hasSqlSEssion()) {
                 SqlSession sqlSession = SqlSessionContext.getSqlSession();
                 Object mapperProxy = sqlSession.getMapper(mapperType);
-                return method.invoke(mapperType, args);
+                return method.invoke(mapperProxy, args);
             }
             try (
                     SqlSession sqlSession = sqlSessionFactory.openSession(true);

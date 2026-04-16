@@ -42,7 +42,7 @@ public interface MemberMapper {
      * 신규 회원의 역할을 ROLE_USER로 등록
      * @return
      */
-    int insertMemberRole(String memId);
+    int insertMemberRole(@Param("username") String memId);
 
     /**
      * 회원 정보 수정

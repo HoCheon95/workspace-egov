@@ -2,7 +2,10 @@ package kr.or.ddit.member.service;
 
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionException;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +53,20 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void registMember(MemberDto member) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'modifyMember'");
+
+        try(
+            SqlSession sqlSession = sqlSessionFactory.openSession();
+        ) {
+            SqlSessionContext.setSqlSession(sqlSession);
+
+            int cnt = mapper.insertMember(member);
+            if(cnt > 0) {
+                mapper.insertMemberRole(member.getMemId());
+                sqlSession.commit();
+            }
+        } finally {
+            SqlSessionContext.clearSqlSession();;
+        }
     }
 
     @Override

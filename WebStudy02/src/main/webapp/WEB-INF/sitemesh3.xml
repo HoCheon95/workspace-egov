@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+    <!-- path 는 사용자의 요청 주소. -->
+    <mapping path="/admin/*" decorator="admin-layout.jsp" />
+    <mapping path="/*" decorator="main-layout.jsp" />
+
+
+    <mapping path="/ajax/*" exclude="true" />
+    <mapping path="/resources/*" exclude="true" />
+</sitemesh>

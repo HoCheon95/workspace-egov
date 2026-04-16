@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 사용자의 정보를 가진 domain layer
+ * 사용자의 정보를 가진 domain layer(Model) & CommandObject
  */
 @NoArgsConstructor
 @AllArgsConstructor
