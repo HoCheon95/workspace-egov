@@ -85,14 +85,14 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void modifyMember(MemberDto member) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'modifyMember'");
+        authService.authenticate(member.getMemId(), member.getMemPass());
+        mapper.updateMember(member);
     }
 
     @Override
     public void removeMember(MemberDto authToken) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeMember'");
+        mapper.deleteMember(authToken.getMemId());
+        mapper.deleteMemberRole(authToken.getMemId());
     }
 
 }

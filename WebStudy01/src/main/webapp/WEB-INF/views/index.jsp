@@ -19,6 +19,7 @@
         %>
         <c:if test="${empty pageContext.request.userPrincipal }">
             <a href="<c:url value='/login'/>">로그인</a>
+            <a href="<c:url value='/member/regist'/>">회원가입</a>
         </c:if>
         <c:if test="${not empty pageContext.request.userPrincipal }">
             ${pageContext.request.userPrincipal.name } <a href="<c:url value='/logout'/>">로그아웃</a>
@@ -28,6 +29,8 @@
             <li>
                 <a href="${pageContext.request.contextPath }/hw02/worldtime">공용 세계시간</a>
             </li>
+            
+            
             <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN') }">
                 <li>
                     <a href='<c:url value="/hw05/exchange"/>'>관리자용 환전서비스</a>

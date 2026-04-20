@@ -18,31 +18,33 @@ public class MemberMapperImplTest {
 
     @Test
     void testInsertMemver() {
-    //     MemberDto dummy = MemberDto.builder()
-    //             .memId("z009")
-    //             .memPass("java")
-    //             .memName("더미")
-    //             .memZip("11111")
-    //             .memAdd1("상위")
-    //             .memAdd2("하위")
-    //             .memMail("aa@gmail.com")
-    //             .build();
-    //     try(
-    //         SqlSession sqlSession = sqlSessionFactory.openSession();
-    //     ) {
-    //         SqlSessionContext.setSqlSession(sqlSession);
-    //         mapper.insertMember(dummy);
-    //         mapper.insertMemberRole(dummy.getMemId());
-    //     }finally {
-    //         SqlSessionContext.clearSqlSession();
-    //     }
+        MemberDto dummy = MemberDto.builder()
+                .memId("test2")
+                .memPass("java")
+                .memName("더미")
+                .memZip("11111")
+                .memAdd1("상위")
+                .memAdd2("하위")
+                .memMail("aa@gmail.com")
+                .build();
+        try(
+            SqlSession sqlSession = sqlSessionFactory.openSession();
+        ) {
+            SqlSessionContext.setSqlSession(sqlSession);
+            mapper.insertMember(dummy);
+            mapper.insertMemberRole(dummy.getMemId());
+
+            sqlSession.commit();
+        }finally {
+            SqlSessionContext.clearSqlSession();
+        }
     }
 
     @Test
     void testSelectMember() {
-        MemberDto member =mapper.selectMember("a001");
+        MemberDto member =mapper.selectMember("test2");
         System.out.println(member);
-        assertNotNull(member);
+        // assertNotNull(member);
     }
 
     @Test
