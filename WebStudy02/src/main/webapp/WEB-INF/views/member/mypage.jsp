@@ -41,14 +41,6 @@
                                 <div>
                                     <h3 class="mb-0 fw-bold">${member.memName} <span class="fs-6 text-muted fw-normal">(${member.memId})</span></h3>
                                     <div class="mt-1">
-                                        <c:choose>
-                                            <c:when test="${member.memDelete eq 'Y'}">
-                                                <span class="badge bg-danger">탈퇴 회위</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <span class="status-active"><i class="bi bi-check-circle-fill me-1"></i>활동 중</span>
-                                            </c:otherwise>
-                                        </c:choose>
                                     </div>
                                 </div>
                             </div>
@@ -124,11 +116,9 @@
                             <div class="gap-2 d-flex">
                                 <a href="/member/modify" class="btn btn-warning px-4 fw-bold text-white">정보 수정</a>
 
-                                <%-- <button type="button" href="/member/leave-out" class="btn btn-danger px-4 fw-bold text-white">탈퇴</button> --%>
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#leave-out">
-                                    탈퇴
-                                </button>
+                                <button class="btn btn-danger" id="del-btn">탈퇴</button>
+
                                 <!-- Modal -->
                                 <div class="modal fade" id="leave-out" tabindex="-1" aria-labelledby="leave-outLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -137,13 +127,16 @@
                                                 <h1 class="modal-title fs-5" id="leave-outLabel">경고</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body">
-                                                회원 탈퇴를 하시겠습니까?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                                                <button type="button" class="btn btn-primary" href="/member/leave-out">탈퇴</button>
-                                            </div>
+                                            <form method="post" action="<c:url value='/member/leave-out'/>">
+                                                <div class="modal-body">
+                                                    <input type="password" name="password"/>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                                    <button type="submit" class="btn btn-danger">탈퇴</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -153,5 +146,22 @@
                 </div>
             </div>
         </div>
+        <h1 id="timeArea"></h1>
+        <script>
+            setInterval(()=>{
+                timeArea.innerHTML = new Date().toString();
+            }, 1000);
+            document.addEventListener("DOMContentLoaded", () => {
+                const myModal = new bootstrap.Modal(document.getElementById('leave-out'));
+                const delBtn = document.getElementById('del-btn');
+                delBtn.addEventListener('click', () => {
+                    if(confirm("탈퇴할래?")){
+                        myModal.show();
+                        //const password = prompt("인증용 비밀번호");
+                        //console.log(password);
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

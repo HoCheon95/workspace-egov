@@ -5,7 +5,7 @@ import java.security.Principal;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import kr.or.ddit.auth.Authentication;
-import kr.or.ddit.member.dto.MemberDto;
+import kr.or.ddit.dto.MemberDto;
 
 public class PrincipalRequestWrapper extends HttpServletRequestWrapper{
 

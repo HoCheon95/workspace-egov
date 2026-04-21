@@ -1,4 +1,4 @@
-package kr.or.ddit.member.dto;
+package kr.or.ddit.dto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,9 +31,9 @@ public class MemberDto {
     private String memId;
     @NotBlank
     @Size(min = 4, max = 12)
-    @Pattern(regexp = "[a-zA-Z]{4,12}")
+    @Pattern(regexp = "(?=.*[a-zA-Z])(?=.*[\\d])(?=.*[@!#])[\\w@!#]{4,12}$")
     private String memPass;
-    @NotBlank(groups = InsertGroup.class)
+    @NotBlank
     private String memName;
     private String memRegno1;
     private String memRegno2;
@@ -62,6 +62,7 @@ public class MemberDto {
     private LocalDate memMemorialday;
     @PositiveOrZero
     private Integer memMileage;
-    private String memDelete;
+    private boolean memDelete;
     private List<String> memRoles;
+
 }

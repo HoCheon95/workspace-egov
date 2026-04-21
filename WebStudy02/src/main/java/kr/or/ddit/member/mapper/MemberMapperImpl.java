@@ -2,7 +2,7 @@ package kr.or.ddit.member.mapper;
 
 import java.util.List;
 
-import kr.or.ddit.member.dto.MemberDto;
+import kr.or.ddit.dto.MemberDto;
 import kr.or.ddit.mybatis.MapperProxyGenerator;
 import kr.or.ddit.mybatis.MapperTemplate;
 

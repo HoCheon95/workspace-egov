@@ -11,7 +11,8 @@ import java.io.IOException;
 
 import kr.or.ddit.auth.exception.AuthenticationException;
 import kr.or.ddit.auth.service.AuthenticateService;
-import kr.or.ddit.member.dto.MemberDto;
+import kr.or.ddit.dto.MemberDto;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class UsernamePasswordAuthenticationFilter extends HttpFilter {

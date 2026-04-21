@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import kr.or.ddit.member.dto.MemberDto;
+import kr.or.ddit.dto.MemberDto;
 
 /**
  * 사용자 관리(CRUD)와 인증에 사용할 Persistence Layer
@@ -56,12 +56,12 @@ public interface MemberMapper {
      * @param memId
      * @return
      */
-    int deleteMember(String memId);
+    int deleteMember(@Param("memId") String memId);
 
     /**
      * 탈퇴 회원의 역할 제거
      * @param memId
      * @return
      */
-    int deleteMemberRole(String memId);
+    int deleteMemberRole(@Param("memId") String memId);
 }

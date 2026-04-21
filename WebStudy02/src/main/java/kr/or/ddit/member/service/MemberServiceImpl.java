@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import kr.or.ddit.auth.exception.AuthenticationException;
 import kr.or.ddit.auth.service.AuthenticateService;
 import kr.or.ddit.common.exception.EntityNotFoundException;
-import kr.or.ddit.member.dto.MemberDto;
+import kr.or.ddit.dto.MemberDto;
 import kr.or.ddit.member.mapper.MemberMapper;
 import kr.or.ddit.mybatis.CustomSqlSessionFactoryBuilder;
 import kr.or.ddit.mybatis.MapperProxyGenerator;
@@ -91,8 +91,18 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void removeMember(MemberDto authToken) {
-        mapper.deleteMember(authToken.getMemId());
-        mapper.deleteMemberRole(authToken.getMemId());
+        authService.authenticate(authToken.getMemId(), authToken.getMemPass());
+        try(
+            SqlSession sqlSession = sqlSessionFactory.openSession();
+        ) {
+            SqlSessionContext.setSqlSession(sqlSession);
+            mapper.deleteMemberRole(authToken.getMemId());
+            mapper.deleteMember(authToken.getMemId());
+
+            sqlSession.commit();
+        }finally {
+            SqlSessionContext.clearSqlSession();
+        }
     }
 
 }

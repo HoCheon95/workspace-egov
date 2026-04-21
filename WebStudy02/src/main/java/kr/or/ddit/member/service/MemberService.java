@@ -4,7 +4,7 @@ import java.util.List;
 
 import kr.or.ddit.auth.exception.AuthenticationException;
 import kr.or.ddit.common.exception.EntityNotFoundException;
-import kr.or.ddit.member.dto.MemberDto;
+import kr.or.ddit.dto.MemberDto;
 
 /**
  * 사용자 관리(CRUD)를 위한 Business Logic Layer

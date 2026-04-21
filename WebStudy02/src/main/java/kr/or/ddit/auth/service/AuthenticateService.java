@@ -3,7 +3,7 @@ package kr.or.ddit.auth.service;
 import kr.or.ddit.auth.exception.AuthenticationException;
 import kr.or.ddit.auth.exception.BadCredentialException;
 import kr.or.ddit.auth.exception.UsernameNotFoundException;
-import kr.or.ddit.member.dto.MemberDto;
+import kr.or.ddit.dto.MemberDto;
 import kr.or.ddit.member.mapper.MemberMapper;
 import kr.or.ddit.mybatis.MapperProxyGenerator;
 
@@ -25,7 +25,7 @@ public class AuthenticateService {
         MemberDto member = dao.selectMember(username);
 
         // 2. 사용자 존재 여부 + 비밀번호 비교
-        if(member == null) {
+        if(member.isMemDelete()) {
             throw new UsernameNotFoundException(username);
         }
         if(password.equals(member.getMemPass())){

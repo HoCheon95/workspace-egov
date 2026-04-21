@@ -14,6 +14,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import kr.or.ddit.dto.MemberDto;
 import kr.or.ddit.validate.ValidateUtils;
 import kr.or.ddit.validate.groups.DeleteGroup;
 import kr.or.ddit.validate.groups.InsertGroup;

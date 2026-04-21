@@ -1,37 +1,35 @@
-package kr.or.ddit.member.controller;
+package kr.or.ddit.buyer.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import kr.or.ddit.dto.MemberDto;
-import kr.or.ddit.member.service.MemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
+import kr.or.ddit.buyer.service.BuyerServiceImpl;
+import kr.or.ddit.dto.BuyerDto;
 import kr.or.ddit.mvc.ViewResolver;
 import kr.or.ddit.mvc.ViewResolverComposite;
+import kr.or.ddit.buyer.service.BuyerService;
 
-@WebServlet("/member/mypage")
-public class MypageServlet extends HttpServlet {
-    private MemberService service = new MemberServiceImpl();
+@WebServlet("/buyer/list")
+public class BuyerListServlet extends HttpServlet{
+    private BuyerService service = new BuyerServiceImpl();
     private ViewResolver viewResolver = new ViewResolverComposite();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // 로그인된 사용자 ID 확인
-        String memId = req.getUserPrincipal().getName();
 
         // 호출하여 회원 데이터 조회
-        MemberDto member = service.readMember(memId);
+        List<BuyerDto> buyerList = service.readBuyerList();
 
         // JSP 전달 준비
-        req.setAttribute("member", member);
+        req.setAttribute("buyerList", buyerList);
 
-        // mypage.jsp 화면 전화
-        String lvn = "member/mypage";
+        // buyerList.jsp 화면 전환
+        String lvn = "buyer/buyerList";
         viewResolver.resolveViewName(lvn, req, resp);
-
     }
 }

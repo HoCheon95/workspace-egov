@@ -6,6 +6,13 @@
         <meta charset="UTF-8">
         <title><sitemesh:write property="title"/></title>
 
+        <c:if test="${not empty message }">
+            <script>
+                alert("${message}");
+            </script>
+            <c:remove var="message" scope="session"/>
+        </c:if>
+
         <%@ include file="/WEB-INF/fragments/preCss.jsp"%>
         <sitemesh:write property="head"/>
 
