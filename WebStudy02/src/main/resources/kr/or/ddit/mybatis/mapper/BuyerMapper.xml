@@ -18,8 +18,13 @@
         , BUYER_TELEXT
     </sql>
 
+    <resultMap id="BuyerMap" type="kr.or.ddit.dto.BuyerDto" autoMapping="true">
+        <id property="buyerId" column="BID"/>
+        <collection property="prodList" ofType="kr.or.ddit.dto.ProdDto" autoMapping="true"/>
+    </resultMap>
+
     <!-- selectBuyerList -->
-    <select id="selectBuyerList" resultType="kr.or.ddit.dto.BuyerDto">
+    <select id="selectBuyerList" resultMap="BuyerMap">
         SELECT 
             <include refid="colums"/>
             , LPROD_ID "lprod.lprodId"
@@ -28,10 +33,7 @@
         FROM BUYER NATURAL JOIN LPROD
     </select>
     
-    <resultMap id="BuyerMap" type="kr.or.ddit.dto.BuyerDto" autoMapping="true">
-        <id property="buyerId" column="BUYER_ID"/>
-        <collection property="prodList" ofType="kr.or.ddit.dto.ProdDto" autoMapping="true"/>
-    </resultMap>
+
     <!-- selectBuyer -->
     <select id="selectBuyer" resultMap="BuyerMap">
         WITH BUYERVIEW AS (

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 
+    appender : 로그 기록 매체
+    layout : 로그 메시지 형식
+    logger : 로그 메시지 전달자
+    level : 로거가 로그 메시지를 프레임워크로 전달할지 여부를 결정하는 조건
+        trace debug info warn error fatal : 우측으로 갈수록 등급이 높아지고, 특정 등급으로 로거의 등급을 설정하면,
+        해당 로거로 전달하는 메시지의 출력여부도 그 등급을 따라감.
+ -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="kr.or.ddit" level="info" />
+    <logger name="p6spy" level="info" />
+
+    <root level="error">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
