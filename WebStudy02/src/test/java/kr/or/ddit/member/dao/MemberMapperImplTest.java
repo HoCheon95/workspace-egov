@@ -42,9 +42,12 @@ public class MemberMapperImplTest {
 
     @Test
     void testSelectMember() {
-        MemberDto member =mapper.selectMember("test2");
+        MemberDto member = mapper.selectMember("a001");
         System.out.println(member);
-        // assertNotNull(member);
+        System.out.println(member.getCartList().size());
+        member.getCartList()
+            .forEach(System.out::println);
+        assertNotNull(member);
     }
 
     @Test

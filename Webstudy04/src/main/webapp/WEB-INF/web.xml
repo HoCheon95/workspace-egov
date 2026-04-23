@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="https://jakarta.ee/xml/ns/jakartaee"
+  xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+  version="6.0">
+  <display-name>WebStudy04</display-name>
+
+  
+
+  <filter>
+    <filter-name>AuthenticationHolderFilter</filter-name>
+    <filter-class>kr.or.ddit.auth.filter.AuthenticationHolderFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthenticationHolderFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>LogoutFilter</filter-name>
+    <filter-class>kr.or.ddit.auth.filter.LogoutFilter</filter-class>
+    <init-param>
+      <param-name>logout-url</param-name>
+      <param-value>/logout</param-value>
+    </init-param>
+    <init-param>
+      <param-name>logout-success-url</param-name>
+      <param-value>/</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>LogoutFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>kr.or.ddit.auth.filter.UsernamePasswordAuthenticationFilter</filter-class>
+    <init-param>
+      <param-name>login-page</param-name>
+      <param-value>/login</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login-process-url</param-name>
+      <param-value>/login</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login-failure-url</param-name>
+      <param-value>/login?error=</param-value>
+    </init-param>
+    <init-param>
+      <param-name>login-success-url</param-name>
+      <param-value>/</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>AuthorizationFilter</filter-name>
+    <filter-class>kr.or.ddit.auth.filter.AuthorizationFilter</filter-class>
+    <init-param>
+      <param-name>location</param-name>
+      <param-value>kr.or.ddit.SecuredResources</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthorizationFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>sitemesh</filter-name>
+    <filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>sitemesh</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>DispatcherServlet</servlet-name>
+    <servlet-class>kr.or.ddit.mvc.DispatcherServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DispatcherServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+</web-app>

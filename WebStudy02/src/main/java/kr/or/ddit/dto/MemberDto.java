@@ -2,7 +2,7 @@ package kr.or.ddit.dto;
 
 import java.time.LocalDate;
 import java.util.List;
-
+import java.util.Set;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -63,6 +63,8 @@ public class MemberDto {
     @PositiveOrZero
     private Integer memMileage;
     private boolean memDelete;
-    private List<String> memRoles;
+    private List<String> memRoles; // MemberDto has many roleName
 
+    // 구매이력
+    private Set<CartDto> cartList; // MembetDto has many CartDto + ProdDto
 }

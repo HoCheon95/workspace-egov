@@ -1,4 +1,4 @@
--- 테이블 구조 필드를 자동으로 생성해주는 '코드 제너레이터' 스크립트
+-- DTO 생성 
 SELECT 'private ' || 
 CASE
 WHEN  DATA_TYPE = 'NUMBER'THEN 'Integer '
@@ -9,7 +9,7 @@ END
 ||
 REPLACE(SUBSTR(INITCAP ('a'||COLUMN_NAME), 2),'_','') || ';'
 FROM COLS
-WHERE TABLE_NAME = 'PROD';
+WHERE TABLE_NAME = 'CART';
 
 
 

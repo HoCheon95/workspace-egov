@@ -2,8 +2,6 @@ package kr.or.ddit.buyer.mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 import kr.or.ddit.dto.BuyerDto;
@@ -28,7 +26,7 @@ public class BuyerMapperTest {
 
     @Test
     void testSelectBuyerList() {
-        mapper.selectBuyerList().forEach((b -> log.info("{}", b.getLprod())));
+        mapper.selectBuyerList().forEach(b -> log.info("{}", b));
     }
 
     @Test

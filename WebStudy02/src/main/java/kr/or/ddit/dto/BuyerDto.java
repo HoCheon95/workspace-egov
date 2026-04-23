@@ -14,10 +14,18 @@ import lombok.EqualsAndHashCode;
 /**
  * 제조사 관리 domain layer
  * 
+ * 1. 테이블(엔터티) 관계 파악, 메인 엔터티(1) 중심으로 관계 형성
  * BUYER(1)       LPROD(1) - 1:1
+ * 2. 엔터티와 1:1 관계로 DTO 정의 -> 엔터티의 관계를 DTO 에 Has 관계로 반영
  * BuyerDto  Has  LprodDto
+ * 3. 조인 쿼리 작성
+ * 4. 쿼리 결과를 바인드하기 위한 resultType 대신 resultMap 으로 수동 바인드
+ *      1) association (has a) : strict alias 로 대체 가능
+ *      2) collection (has many) : many result 를 중복 제거하기 위한 id 필수
  * 
+ * 1. 테이블(엔터티) 관계 파악, 메인 엔터티(1) 중심으로 관계 형성
  * BUYER(1)            PROD(N)
+ * 2. 엔터티와 1:1 관계로 DTO 정의 -> 엔터티의 관계를 DTO 에 Has 관계로 반영
  * BuyerDto  Has Many  ProdDto
  */
 @Data
