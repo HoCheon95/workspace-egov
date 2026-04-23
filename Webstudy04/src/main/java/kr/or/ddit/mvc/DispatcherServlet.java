@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DispatcherServlet extends HttpServlet{
     private ViewResolver viewResolver = new ViewResolverComposite();
     private HandlerMapping handlerMapping = new RequestMappingHandlerMapping("kr.or.ddit");
-    private HandlerAdapter handlerAdpter = new RequestMappingHandlerAdapter();
+    private HandlerAdapter handlerAdapter = new RequestMappingHandlerAdapter();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -44,7 +44,7 @@ public class DispatcherServlet extends HttpServlet{
             return;
         }
 
-        String lvn = handlerAdpter.invokeHandler(requestMappingInfo, req, resp);
+        String lvn = handlerAdapter.invokeHandler(requestMappingInfo, req, resp);
         if(lvn == null) {
             if(!resp.isCommitted()) {
                 resp.sendError(500, "뷰 레이어의 정보가 없음.");
