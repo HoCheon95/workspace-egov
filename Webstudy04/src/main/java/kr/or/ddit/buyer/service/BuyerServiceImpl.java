@@ -16,12 +16,18 @@ public class BuyerServiceImpl implements BuyerService{
     }
 
     @Override
-    public BuyerDto readBuyer(String buyerID) throws EntityNotFoundException {
+    public BuyerDto readBuyer(String buyerId) throws EntityNotFoundException {
         
-        BuyerDto buyer = mapper.selectBuyer(buyerID);
+        BuyerDto buyer = mapper.selectBuyer(buyerId);
         if(buyer == null) {
-            throw new EntityNotFoundException("%s 에 해당하는 제조사 레코드 없음.".formatted(buyerID));
+            throw new EntityNotFoundException("%s 에 해당하는 제조사 레코드 없음.".formatted(buyerId));
         }
         return buyer;
+    }
+
+    @Override
+    public boolean createBuyer(BuyerDto buyer) {
+        int rowcnt = mapper.insertBuyer(buyer);
+        return rowcnt > 0;
     }
 }

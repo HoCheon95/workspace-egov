@@ -53,4 +53,43 @@
             , PROD_SALE
         FROM BUYERVIEW B LEFT OUTER JOIN PROD P ON (B.BUYER_ID = P.BUYER_ID)
     </select>
+
+    <!-- insertBuyer --> 
+    <insert id="insertBuyer">
+        <selectKey order="BEFORE" resultType="string" keyProperty="buyerId">
+            SELECT #{lprodGu}||LPAD(NVL(TO_NUMBER(SUBSTR(MAX(buyer_id),5)),0)+1, 2, '0')
+            FROM BUYER
+            WHERE LPROD_GU = #{lprodGu}
+        </selectKey>
+        INSERT INTO BUYER
+        (
+            BUYER_ID,
+            BUYER_NAME,
+            LPROD_GU,
+            BUYER_BANK,
+            BUYER_BANKNO,
+            BUYER_BANKNAME,
+            BUYER_ZIP,
+            BUYER_ADD1,
+            BUYER_ADD2,
+            BUYER_COMTEL,
+            BUYER_FAX,
+            BUYER_MAIL,
+            BUYER_CHARGER
+        ) VALUES (
+            #{buyerId},
+            #{buyerName},
+            #{lprodGu},
+            #{buyerBank},
+            #{buyerBankno},
+            #{buyerBankname},
+            #{buyerZip},
+            #{buyerAdd1},
+            #{buyerAdd2},
+            #{buyerComtel},
+            #{buyerFax},
+            #{buyerMail},
+            #{buyerCharger}
+        )
+    </insert>
 </mapper>

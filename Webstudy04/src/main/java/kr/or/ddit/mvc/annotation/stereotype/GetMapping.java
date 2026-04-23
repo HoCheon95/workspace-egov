@@ -7,9 +7,9 @@ import java.lang.annotation.Target;
 
 import kr.or.ddit.mvc.annotation.RequestMethod;
 
-@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RequestMapping {
-    String value() default "";
-    RequestMethod method() default RequestMethod.GET;
+@RequestMapping(method = RequestMethod.GET)
+public @interface GetMapping {
+    
 }

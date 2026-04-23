@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 제조사 관리 domain layer
+ * 제조사 관리 domain layer & command object
  * 
  * 1. 테이블(엔터티) 관계 파악, 메인 엔터티(1) 중심으로 관계 형성
  * BUYER(1)       LPROD(1) - 1:1

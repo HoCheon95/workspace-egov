@@ -58,7 +58,12 @@ public class UsernamePasswordAuthenticationFilter extends HttpFilter {
                     MemberDto authMember = authservice.authenticate(username, password);    
                     if (authMember != null) {
                         session.setAttribute("authMember", authMember);
-                        lvn = loginSuccessUrl;
+                        String wantedUrl = (String) session.getAttribute("wantedUrl");
+                        if (wantedUrl != null) {
+                            lvn = wantedUrl;
+                        } else {
+                            lvn = loginSuccessUrl;
+                        }
                     }
                 } catch (AuthenticationException e) {
                     session.setAttribute("SECURITY_LAST_EXCEPTION", e);

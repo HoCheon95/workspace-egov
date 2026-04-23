@@ -70,6 +70,7 @@ public class AuthorizationFilter extends HttpFilter {
         if (pass) {
             chain.doFilter(req, res);
         } else if (!isAuthenticated) {
+            req.getSession().setAttribute("wantedUrl", requestURI);
             res.setStatus(401);
         } else {
             res.sendError(403, "권한 없음");

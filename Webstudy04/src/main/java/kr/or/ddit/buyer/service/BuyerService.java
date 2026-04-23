@@ -11,7 +11,7 @@ import kr.or.ddit.dto.BuyerDto;
  * 제조사 관리 Business Logic Layer
  */
 public interface BuyerService {
-    // createBuyer
+    boolean createBuyer(BuyerDto buyer);
 
     /**
      * 
@@ -19,7 +19,7 @@ public interface BuyerService {
      * @return
      * @throws EntityNotFoundException 
      */
-    BuyerDto readBuyer(@Param("buyerId") String buyerID) throws EntityNotFoundException;
+    BuyerDto readBuyer(@Param("buyerId") String buyerId) throws EntityNotFoundException;
 
     /**
      * 

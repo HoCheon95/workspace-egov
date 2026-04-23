@@ -1,5 +1,6 @@
 package kr.or.ddit.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -25,20 +26,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class MemberDto {
+public class MemberDto implements Serializable{
     @NotBlank(groups = {InsertGroup.class, DeleteGroup.class}, message = "아이디 필수 입력")
     @Size(max = 15, min = 4, groups = {InsertGroup.class, DeleteGroup.class}, message = "입력값(${validatedValue}), 길이는 {MIN}~{MAX}글자")
     private String memId;
     @NotBlank
     @Size(min = 4, max = 12)
     @Pattern(regexp = "(?=.*[a-zA-Z])(?=.*[\\d])(?=.*[@!#])[\\w@!#]{4,12}$")
-    private String memPass;
+    private transient String memPass;
     @NotBlank
     private String memName;
-    private String memRegno1;
-    private String memRegno2;
+    private transient String memRegno1;
+    private transient String memRegno2;
     @Past
-    private LocalDate memBir;
+    private transient LocalDate memBir;
     @NotBlank
     private String memZip;
     @NotBlank
@@ -59,12 +60,12 @@ public class MemberDto {
     private String memJob;
     private String memLike;
     private String memMemorial;
-    private LocalDate memMemorialday;
+    private transient LocalDate memMemorialday;
     @PositiveOrZero
     private Integer memMileage;
     private boolean memDelete;
     private List<String> memRoles; // MemberDto has many roleName
 
     // 구매이력
-    private Set<CartDto> cartList; // MembetDto has many CartDto + ProdDto
+    private transient Set<CartDto> cartList; // MembetDto has many CartDto + ProdDto
 }

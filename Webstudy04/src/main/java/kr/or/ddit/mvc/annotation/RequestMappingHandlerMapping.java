@@ -25,7 +25,6 @@ public class RequestMappingHandlerMapping implements HandlerMapping{
         handlerMap = new LinkedHashMap<>();
 
         try (ScanResult scanResult = new ClassGraph()
-                .verbose()              // Log to stderr
                 .enableAllInfo()        // Scan classes, methods, fields, annotations
                 .acceptPackages(pkg)    // Scan com.xyz and subpackages (omit to scan all packages)
                 .scan()) {              // Start the scan
@@ -46,7 +45,7 @@ public class RequestMappingHandlerMapping implements HandlerMapping{
                             Method handlerMethod = mi.loadClassAndGetMethod();
                             RequestMappingInfo mappingInfo = new RequestMappingInfo(condition, controllerInstance, handlerMethod);
                             handlerMap.put(condition, mappingInfo);
-                            log.info("{}", mappingInfo);
+                            log.info("{}", mappingInfo.getMappingCondition());
                         });
             }
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
