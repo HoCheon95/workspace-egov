@@ -11,6 +11,13 @@ import kr.or.ddit.dto.BuyerDto;
  * 제조사 관리 Business Logic Layer
  */
 public interface BuyerService {
+    /**
+     * 거래처 정보 수정
+     * @param member
+     */
+    boolean modifyBuyer(BuyerDto member);
+
+
     boolean createBuyer(BuyerDto buyer);
 
     /**

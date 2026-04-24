@@ -25,7 +25,12 @@ public interface BuyerMapper {
 
     List<BuyerDto> selectBuyerList();
 
-    void updateBuyer();
+    /**
+     * 제조사 정보 수정
+     * @param buyer
+     * @return
+     */
+    int updateBuyer(BuyerDto buyer);
     
     void deleteBuyer();
 

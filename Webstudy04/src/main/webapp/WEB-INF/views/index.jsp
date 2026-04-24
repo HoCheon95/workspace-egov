@@ -57,7 +57,7 @@
     <body>
 
         <span>Web Study 4</span>
-        <h4>웰컴패키지</h4>
+        <h4>웰컴패키지, ${today}</h4>
         <%
             request.getUserPrincipal();
         %>

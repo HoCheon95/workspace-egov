@@ -50,7 +50,7 @@
             </div>
             <div class="card-footer text-end">
                 <a href="${pageContext.request.contextPath}/buyer/list" class="btn btn-secondary">목록으로</a>
-                <button class="btn btn-warning">수정하기</button>
+                <a href="${pageContext.request.contextPath}/buyer/modify?what=${buyer.buyerId}" class="btn btn-warning">수정하기</a>
             </div>
         </div>
     </div>

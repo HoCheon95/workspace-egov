@@ -36,6 +36,9 @@ public class RequestParamMethodArgumentResolver implements HandlerMethodArgument
         RequestParam annotation = parameter.getAnnotation(RequestParam.class);
         Class<?> paramterType = parameter.getType();
         String paramName = annotation.value();
+        if(StringUtils.isBlank(paramName)) {
+            paramName = parameter.getName();
+        }
         String paramValue = req.getParameter(paramName);
         if(annotation.required() && StringUtils.isBlank(paramValue)) {
             // BadRequestException 대응

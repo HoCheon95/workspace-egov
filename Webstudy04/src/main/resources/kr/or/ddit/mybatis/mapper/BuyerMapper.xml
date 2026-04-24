@@ -20,6 +20,7 @@
 
     <resultMap id="BuyerMap" type="kr.or.ddit.dto.BuyerDto" autoMapping="true">
         <id property="buyerId" column="BUYER_ID"/>
+        <association property="lprod" javaType="kr.or.ddit.dto.LprodDto" autoMapping="true"/>
         <collection property="prodList" ofType="kr.or.ddit.dto.ProdDto" autoMapping="true"/>
     </resultMap>
 
@@ -27,6 +28,7 @@
     <select id="selectBuyerList" resultMap="BuyerMap">
         SELECT 
             <include refid="colums"/>
+            , LPROD_GU
             , LPROD_ID "lprod.lprodId"
             , LPROD_GU "lprod.lprodGu"
             , LPROD_NAME "lprod.lprodName"
@@ -39,6 +41,7 @@
         WITH BUYERVIEW AS (
             SELECT
                 <include refid="colums"/>
+                , LPROD_GU
                 , LPROD_ID "lprod.lprodId"
                 , LPROD_GU "lprod.lprodGu"
                 , LPROD_NAME "lprod.lprodName"
@@ -92,4 +95,23 @@
             #{buyerCharger}
         )
     </insert>
+
+    <!-- updateBuyer --> 
+    <update id="updateBuyer">
+        UPDATE BUYER
+        SET 
+            BUYER_NAME = #{buyerName},
+            LPROD_GU = #{lprodGu},
+            BUYER_BANK = #{buyerBank},
+            BUYER_BANKNO = #{buyerBankno},
+            BUYER_BANKNAME = #{buyerBankname},
+            BUYER_ZIP = #{buyerZip},
+            BUYER_ADD1 = #{buyerAdd1},
+            BUYER_ADD2 = #{buyerAdd2},
+            BUYER_COMTEL = #{buyerComtel},
+            BUYER_FAX = #{buyerFax},
+            BUYER_MAIL = #{buyerMail},
+            BUYER_CHARGER = #{buyerCharger}
+        WHERE BUYER_ID = #{buyerId}
+    </update>
 </mapper>

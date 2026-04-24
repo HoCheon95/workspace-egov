@@ -30,4 +30,10 @@ public class BuyerServiceImpl implements BuyerService{
         int rowcnt = mapper.insertBuyer(buyer);
         return rowcnt > 0;
     }
+
+    @Override
+    public boolean modifyBuyer(BuyerDto buyer) {
+        int rowcnt = mapper.updateBuyer(buyer);
+        return rowcnt > 0;
+    }
 }
