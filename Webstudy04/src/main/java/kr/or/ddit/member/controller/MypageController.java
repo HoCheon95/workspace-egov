@@ -3,14 +3,15 @@ package kr.or.ddit.member.controller;
 import kr.or.ddit.auth.Authentication;
 import kr.or.ddit.dto.MemberDto;
 import kr.or.ddit.member.service.MemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
+import kr.or.ddit.mvc.annotation.stereotype.Autowired;
 import kr.or.ddit.mvc.annotation.stereotype.Controller;
 import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.mvc.simple.ModelAndView;
 
 @Controller
 public class MypageController{
-    private MemberService service = new MemberServiceImpl();
+    @Autowired
+    private MemberService service;
 
     @RequestMapping("/member/mypage")
     public ModelAndView memberMypage(Authentication principal) {

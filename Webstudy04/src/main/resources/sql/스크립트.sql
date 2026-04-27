@@ -9,7 +9,7 @@ END
 ||
 REPLACE(SUBSTR(INITCAP ('a'||COLUMN_NAME), 2),'_','') || ';'
 FROM COLS
-WHERE TABLE_NAME = 'BUYER';
+WHERE TABLE_NAME = 'PROD';
 
 
 
@@ -19,21 +19,29 @@ SELECT COLUMN_NAME || ' = #{' ||
        SUBSTR(REPLACE(INITCAP(LOWER(COLUMN_NAME)), '_', ''), 2) || 
        '},' AS UPDATE_SET_LINE
 FROM COLS
-WHERE TABLE_NAME = 'BUYER'
-  AND COLUMN_NAME != 'BUYER_ID' -- 보통 ID는 수정하지 않으므로 제외해요
+WHERE TABLE_NAME = 'PROD'
+  AND COLUMN_NAME != 'PROD_ID' -- 보통 ID는 수정하지 않으므로 제외해요
 ORDER BY COLUMN_ID;
 
+-- 컬럼명 첫 글자 소문자로 바꿔서 #{...} 표현식 만들기
 SELECT '#{' ||
 SUBSTR(REPLACE(INITCAP(LOWER('A'||column_name)), '_', ''),2)
 || '},'
 from COLS
-where TABLE_NAME = 'BUYER';
+where TABLE_NAME = 'PROD';
 
+-- 컬럼명 첫 글자 소문자로 바꿔서 콤마 붙이기
 SELECT 
-SUBSTR(REPLACE(INITCAP(LOWER('A'||column_name)), '_', ''),2)
+SUBSTR(REPLACE(INITCAP(UPPER('A'||column_name)), '_', ''),2)
 || ','
 from COLS
-where TABLE_NAME = 'BUYER';
+where TABLE_NAME = 'PROD';
+
+-- 컬럼명 대문자로 바꿔서 콤마 붙이기
+SELECT 
+    UPPER(COLUMN_NAME) || ','
+FROM COLS
+WHERE TABLE_NAME = 'PROD';
 
 
 

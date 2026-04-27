@@ -4,15 +4,16 @@ import jakarta.servlet.http.HttpSession;
 import kr.or.ddit.auth.Authentication;
 import kr.or.ddit.auth.exception.AuthenticationException;
 import kr.or.ddit.member.service.MemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.mvc.annotation.RequestMethod;
+import kr.or.ddit.mvc.annotation.stereotype.Autowired;
 import kr.or.ddit.mvc.annotation.stereotype.Controller;
 import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.mvc.annotation.stereotype.RequestParam;
 
 @Controller
 public class ChangePasswordController {
-    private MemberService service = new MemberServiceImpl();
+    @Autowired
+    private MemberService service;
     HttpSession session;
 
     @RequestMapping("/member/change-password")
@@ -30,15 +31,6 @@ public class ChangePasswordController {
         Authentication authentication
     ) {
 
-        // // 필수 파라미터 검증 : 누락시 400 전송
-        // if (StringUtil.isBlank(oldPassword) || StringUtil.isBlank(newPassword) || StringUtil.isBlank(retypePassword)) {
-        //     try {
-        //         resp.sendError(400, "필수 파라미터 누락");
-        //     } catch (IOException e) {
-        //         e.printStackTrace();
-        //     }
-        //     return null;
-        // }
         String lvn = null;
         // pw1 == pw2 : 통과하지 못하면? 적절한 메시지와 함께 change-password 로 redirect 이동 
         if(newPassword.equals(retypePassword)){

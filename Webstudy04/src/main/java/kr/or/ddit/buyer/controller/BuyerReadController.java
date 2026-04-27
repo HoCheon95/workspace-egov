@@ -2,20 +2,20 @@ package kr.or.ddit.buyer.controller;
 
 import java.util.List;
 
-import kr.or.ddit.buyer.service.BuyerServiceImpl;
 import kr.or.ddit.dto.BuyerDto;
 import kr.or.ddit.mvc.Model;
+import kr.or.ddit.mvc.annotation.stereotype.Autowired;
 import kr.or.ddit.mvc.annotation.stereotype.Controller;
 import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.mvc.annotation.stereotype.RequestParam;
+import kr.or.ddit.mvc.annotation.stereotype.ResponseBody;
 import kr.or.ddit.mvc.simple.ModelAndView;
-import lombok.extern.slf4j.Slf4j;
 import kr.or.ddit.buyer.service.BuyerService;
 
 @Controller
-@Slf4j
 public class BuyerReadController{
-    private BuyerService service = new BuyerServiceImpl();
+    @Autowired
+    private BuyerService service;
 
     @RequestMapping("/buyer/list")
     public String buyerList(Model model) {
@@ -31,5 +31,11 @@ public class BuyerReadController{
         mav.addAttribute("buyer", buyer);
         mav.setViewName("buyer/buyerDetail");
         return mav;
+    }
+
+    @RequestMapping("/buyer/detail/json")
+    @ResponseBody
+    public BuyerDto buyerDetailJson(@RequestParam("what") String buyerId) {
+        return service.readBuyer(buyerId);
     }
 }

@@ -115,6 +115,18 @@
                     name: "Buyer Create",
                     desc: "신규 거래처 등록",
                     date: "2026-04-23"
+                },
+                {
+                    url: "/prod/list",
+                    name: "Prod list",
+                    desc : "상품 목록",
+                    date: "2026-04-27"
+                },
+                {
+                    url: "/prod/create",
+                    name: "Prod Create",
+                    desc: "신규 상품 등록",
+                    date: "2026-04-27"
                 }
             ];
             

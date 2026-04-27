@@ -11,9 +11,11 @@
         SELECT 
             PROD_ID, PROD_NAME, PROD_COST, PROD_PRICE, PROD_SALE 
             , LPROD_NAME
+            , LPROD_GU
             , BUYER_ID
             , BUYER_NAME
             , BUYER_ADD1
+            , PROD_MILEAGE
         FROM PRODVIEW 
     </select>
 
@@ -25,4 +27,82 @@
             , BUYER_NAME, BUYER_BANK, BUYER_BANKNO, BUYER_BANKNAME, BUYER_ZIP, BUYER_ADD1, BUYER_ADD2, BUYER_COMTEL, BUYER_FAX, BUYER_MAIL, BUYER_CHARGER, BUYER_TELEXT
         FROM PRODVIEW WHERE PROD_ID = #{prodId}
     </select>
+
+    <!-- insertProd --> 
+    <insert id="insertProd">
+        <selectKey order="BEFORE" resultType="string" keyProperty="prodId">
+            SELECT #{lprodGu} || LPAD(NVL(TO_NUMBER(SUBSTR(MAX(PROD_ID), 5)), 0) + 1, 6, '0')
+            FROM PROD
+            WHERE LPROD_GU = #{lprodGu}
+        </selectKey>
+        INSERT INTO PROD (
+            PROD_ID,
+            PROD_NAME,
+            LPROD_GU,
+            BUYER_ID,
+            PROD_COST,
+            PROD_PRICE,
+            PROD_SALE,
+            PROD_OUTLINE,
+            PROD_DETAIL,
+            PROD_IMG,
+            PROD_TOTALSTOCK,
+            PROD_INSDATE,
+            PROD_PROPERSTOCK,
+            PROD_SIZE,
+            PROD_COLOR,
+            PROD_DELIVERY,
+            PROD_UNIT,
+            PROD_QTYIN,
+            PROD_QTYSALE,
+            PROD_MILEAGE
+        ) VALUES (
+            #{prodId},
+            #{prodName},
+            #{lprodGu},
+            #{buyerId},
+            #{prodCost},
+            #{prodPrice},
+            #{prodSale},
+            #{prodOutline},
+            #{prodDetail},
+            #{prodImg},
+            #{prodTotalstock},
+            #{prodInsdate},
+            #{prodProperstock},
+            #{prodSize},
+            #{prodColor},
+            #{prodDelivery},
+            #{prodUnit},
+            #{prodQtyin},
+            #{prodQtysale},
+            #{prodMileage}
+        )
+    </insert>
+
+    <!-- updateProd --> 
+    <update id="updateProd">
+        UPDATE PROD
+        SET
+            PROD_NAME = #{prodName},
+            LPROD_GU = #{lprodGu},
+            BUYER_ID = #{buyerId},
+            PROD_COST = #{prodCost},
+            PROD_PRICE = #{prodPrice},
+            PROD_SALE = #{prodSale},
+            PROD_OUTLINE = #{prodOutline},
+            PROD_DETAIL = #{prodDetail},
+            PROD_IMG = #{prodImg},
+            PROD_TOTALSTOCK = #{prodTotalstock},
+            PROD_INSDATE = #{prodInsdate},
+            PROD_PROPERSTOCK = #{prodProperstock},
+            PROD_SIZE = #{prodSize},
+            PROD_COLOR = #{prodColor},
+            PROD_DELIVERY = #{prodDelivery},
+            PROD_UNIT = #{prodUnit},
+            PROD_QTYIN = #{prodQtyin},
+            PROD_QTYSALE = #{prodQtysale},
+            PROD_MILEAGE = #{prodMileage}
+        WHERE PROD_ID = #{prodId}
+    </update>
 </mapper>

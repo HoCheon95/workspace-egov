@@ -29,9 +29,8 @@
         SELECT 
             <include refid="colums"/>
             , LPROD_GU
-            , LPROD_ID "lprod.lprodId"
-            , LPROD_GU "lprod.lprodGu"
-            , LPROD_NAME "lprod.lprodName"
+            , LPROD_ID
+            , LPROD_NAME
         FROM BUYER NATURAL JOIN LPROD
     </select>
     
@@ -42,9 +41,8 @@
             SELECT
                 <include refid="colums"/>
                 , LPROD_GU
-                , LPROD_ID "lprod.lprodId"
-                , LPROD_GU "lprod.lprodGu"
-                , LPROD_NAME "lprod.lprodName"
+                , LPROD_ID
+                , LPROD_NAME
             FROM BUYER NATURAL JOIN LPROD
             WHERE BUYER_ID = #{buyerId}
         )
@@ -54,6 +52,7 @@
             , PROD_COST
             , PROD_PRICE
             , PROD_SALE
+            , PROD_INSDATE
         FROM BUYERVIEW B LEFT OUTER JOIN PROD P ON (B.BUYER_ID = P.BUYER_ID)
     </select>
 

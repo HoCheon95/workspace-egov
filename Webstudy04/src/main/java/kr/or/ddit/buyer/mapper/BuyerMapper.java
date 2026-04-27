@@ -2,6 +2,7 @@ package kr.or.ddit.buyer.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import kr.or.ddit.dto.BuyerDto;
@@ -9,6 +10,7 @@ import kr.or.ddit.dto.BuyerDto;
 /**
  * 제조사 관리 Persistence Layer
  */
+@Mapper
 public interface BuyerMapper {
     /**
      * 신규 제조사 등록

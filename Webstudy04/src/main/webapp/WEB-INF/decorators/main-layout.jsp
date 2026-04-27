@@ -17,7 +17,7 @@
         <sitemesh:write property="head"/>
 
     </head>
-    <body>
+    <body data-cpath="${pageContext.request.contextPath}">
         <h4>공통 레이아웃의 제목</h4>
         <div class="mainBody">
 

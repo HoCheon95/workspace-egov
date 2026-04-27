@@ -2,6 +2,7 @@ package kr.or.ddit.member.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import kr.or.ddit.dto.MemberDto;
@@ -9,6 +10,7 @@ import kr.or.ddit.dto.MemberDto;
 /**
  * 사용자 관리(CRUD)와 인증에 사용할 Persistence Layer
  */
+@Mapper
 public interface MemberMapper {
     /**
      * 회원 상제 조회

@@ -23,21 +23,18 @@
                                     </h4>
                                 </div>
                                 <div class="card-body p-4">
-                                    <form method="post" action="${pageContext.request.contextPath}/buyer/modify">
-                                        <%-- 수정 시 필수 : ID를 숨겨서 서버로 보냄 --%>
-                                        <input type="hidden" name="buyerId" value="${buyer.buyerId}" />
+                                    <form method="post" action="${pageContext.request.contextPath}${empty buyer.buyerId ? '/buyer/create' : '/buyer/modify'}">
+                                        <%-- 수정 시에만 buyerId를 서버로 보냄 --%>
+                                        <c:if test="${not empty buyer.buyerId}">
+                                            <input type="hidden" name="buyerId" value="${buyer.buyerId}" />
+                                            <span class="text-danger">${errors.buyerId}</span>
+                                        </c:if>
                                         <div class="row">
                                             <h5 class="mb-3 text-secondary border-bottom pb-2">기본 정보</h5>
                                             <div class="col-md-6 mb-3">
                                                 <label for="lprodGu" class="form-label">상품 분류 (필수)</label>
-                                                <select class="form-select" id="lprodGu" name="lprodGu">
-                                                    <%-- 1. 수정 모드일 때 기존 값이 잘 들어오는지 확인하기 위한 로그성 체크 --%>
-                                                    <option value="" disabled ${empty buyer.lprodGu ? 'selected' : ''}>분류를 선택하세요 (${buyer.lprodGu})</option>
-
-                                                    <%-- 2. DTO 필드명과 정확히 매칭되는지 확인 --%>
-                                                    <option value="P101" ${buyer.lprodGu eq 'P101' ? 'selected' : ''}>전자제품 (P101)</option>
-                                                    <option value="P102" ${buyer.lprodGu eq 'P102' ? 'selected' : ''}>식료품 (P102)</option>
-                                                    <option value="P201" ${buyer.lprodGu eq 'P201' ? 'selected' : ''}>의류 (P201)</option>
+                                                <select id="lprodGu" name="lprodGu">
+                                                    <option value="" disabled selected>분류를 선택하세요</option>
                                                 </select>
                                                 <%-- 에러 메시지 표시 (선택 사항) --%>
                                                 <span class="text-danger">${errors.lprodGu}</span>
@@ -114,5 +111,6 @@
                         </div>
                     </div>
                 </div>
+                <script type="text/javascript" src="<c:url value='/resources/js/app/buyer/buyerForm.js'/>"></script>
             </body>
         </html>

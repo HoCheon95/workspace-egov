@@ -4,11 +4,14 @@ import java.util.List;
 
 import kr.or.ddit.buyer.mapper.BuyerMapper;
 import kr.or.ddit.common.exception.EntityNotFoundException;
+import kr.or.ddit.di.stereotype.Service;
 import kr.or.ddit.dto.BuyerDto;
-import kr.or.ddit.mybatis.MapperProxyGenerator;
+import kr.or.ddit.mvc.annotation.stereotype.Autowired;
 
+@Service
 public class BuyerServiceImpl implements BuyerService{
-    private BuyerMapper mapper = MapperProxyGenerator.generateMapperProxy(BuyerMapper.class);
+    @Autowired
+    private BuyerMapper mapper;
 
     @Override
     public List<BuyerDto> readBuyerList() {

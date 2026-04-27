@@ -6,9 +6,9 @@ import java.util.Map;
 import kr.or.ddit.auth.Authentication;
 import kr.or.ddit.dto.MemberDto;
 import kr.or.ddit.member.service.MemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.mvc.Model;
 import kr.or.ddit.mvc.annotation.RequestMethod;
+import kr.or.ddit.mvc.annotation.stereotype.Autowired;
 import kr.or.ddit.mvc.annotation.stereotype.Controller;
 import kr.or.ddit.mvc.annotation.stereotype.ModelAttribute;
 import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
@@ -19,7 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class MemberModifyController {
-    private MemberService service = new MemberServiceImpl();
+    @Autowired
+    private MemberService service;
 
     @RequestMapping("/member/modify")
     public String memberModify(Authentication authentication, Model model) {

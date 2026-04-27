@@ -1,7 +1,5 @@
 package kr.or.ddit.mvc.annotation;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -11,6 +9,8 @@ import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
 import jakarta.servlet.http.HttpServletRequest;
+import kr.or.ddit.di.ApplicationContextHolder;
+import kr.or.ddit.di.ApplicationContext;
 import kr.or.ddit.mvc.HandlerMapping;
 import kr.or.ddit.mvc.annotation.stereotype.Controller;
 import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
@@ -30,8 +30,10 @@ public class RequestMappingHandlerMapping implements HandlerMapping{
                 .scan()) {              // Start the scan
             for (ClassInfo classInfo : scanResult.getClassesWithAnnotation(Controller.class)) {
                 
-                Constructor<?> constructor = classInfo.getDeclaredConstructorInfo().getFirst().loadClassAndGetConstructor();
-                Object controllerInstance = constructor.newInstance();
+                Class<?> controllerType = classInfo.loadClass();
+
+                ApplicationContext context = ApplicationContextHolder.getContext();
+                Object controllerInstance = context.getBean(controllerType);
                 
                 classInfo.getDeclaredMethodInfo()
                         .stream()
@@ -48,8 +50,7 @@ public class RequestMappingHandlerMapping implements HandlerMapping{
                             log.info("{}", mappingInfo.getMappingCondition());
                         });
             }
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException e) {
+        } catch (IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
     }

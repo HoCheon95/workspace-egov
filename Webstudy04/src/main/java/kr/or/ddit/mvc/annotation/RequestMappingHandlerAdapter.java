@@ -11,6 +11,8 @@ import java.util.Map;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kr.or.ddit.di.ApplicationContext;
+import kr.or.ddit.di.ApplicationContextHolder;
 import kr.or.ddit.mvc.HandlerAdapter;
 import kr.or.ddit.mvc.Model;
 import kr.or.ddit.mvc.annotation.resolvers.ErrorsMapMethodArgumentResolver;
@@ -20,15 +22,22 @@ import kr.or.ddit.mvc.annotation.resolvers.ModelMethodProcessor;
 import kr.or.ddit.mvc.annotation.resolvers.RequestParamMethodArgumentResolver;
 import kr.or.ddit.mvc.annotation.resolvers.ServletRequestMethodArgumentResolver;
 import kr.or.ddit.mvc.annotation.resolvers.ServletResponseMethodArgumentResolver;
+import kr.or.ddit.mvc.annotation.stereotype.ResponseBody;
 import kr.or.ddit.mvc.exception.CommandObjectBindException;
+import kr.or.ddit.mvc.messageconverter.HttpMessageConverter;
 import kr.or.ddit.mvc.simple.ModelAndView;
 
 public class RequestMappingHandlerAdapter implements HandlerAdapter{
     public static final String MODELATTRIBUTENAME = "kr.or.ddit.mvc.Model";
 
+    private HttpMessageConverter messageConverter;
+
     private List<HandlerMethodArgumentResolver> argumentResolvers;
     
     public RequestMappingHandlerAdapter() {
+        ApplicationContext context =  ApplicationContextHolder.getContext();
+        this.messageConverter = context.getBean(HttpMessageConverter.class);
+
         argumentResolvers = new ArrayList<>();
         argumentResolvers.add(new ServletRequestMethodArgumentResolver());
         argumentResolvers.add(new ServletResponseMethodArgumentResolver());
@@ -105,6 +114,9 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter{
                 } else if(returnValue instanceof String) {
                     model.asMap().forEach(req::setAttribute);
                     return (String) returnValue;
+                } else if(handlerMethod.getAnnotation(ResponseBody.class)!=null) {
+                    messageConverter.write(returnValue, resp);
+                    return null;
                 } else {
                     throw new RuntimeException("핸들러 메소드의 반환타입을 처리할 수 없음.");
                 }

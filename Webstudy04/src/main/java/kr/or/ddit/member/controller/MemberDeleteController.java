@@ -5,15 +5,16 @@ import kr.or.ddit.auth.Authentication;
 import kr.or.ddit.auth.exception.AuthenticationException;
 import kr.or.ddit.dto.MemberDto;
 import kr.or.ddit.member.service.MemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.mvc.annotation.RequestMethod;
+import kr.or.ddit.mvc.annotation.stereotype.Autowired;
 import kr.or.ddit.mvc.annotation.stereotype.Controller;
 import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 import kr.or.ddit.mvc.annotation.stereotype.RequestParam;
 
 @Controller
 public class MemberDeleteController {
-    private MemberService service = new MemberServiceImpl();
+    @Autowired
+    private MemberService service;
 
     @RequestMapping(value = "/member/leave-out", method = RequestMethod.POST)
     public String memberLeaveOut(

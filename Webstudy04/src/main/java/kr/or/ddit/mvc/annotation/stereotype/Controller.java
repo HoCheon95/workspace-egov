@@ -1,12 +1,16 @@
 package kr.or.ddit.mvc.annotation.stereotype;
 
-import java.lang.annotation.ElementType;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
+import kr.or.ddit.di.stereotype.Component;
+
+@Target(TYPE)
+@Retention(RUNTIME)
+@Component
 public @interface Controller {
-    
+
 }

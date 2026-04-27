@@ -6,9 +6,9 @@ import java.util.Map;
 import kr.or.ddit.auth.Authentication;
 import kr.or.ddit.dto.MemberDto;
 import kr.or.ddit.member.service.MemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
 import kr.or.ddit.mvc.Model;
 import kr.or.ddit.mvc.annotation.RequestMethod;
+import kr.or.ddit.mvc.annotation.stereotype.Autowired;
 import kr.or.ddit.mvc.annotation.stereotype.Controller;
 import kr.or.ddit.mvc.annotation.stereotype.ModelAttribute;
 import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
@@ -17,7 +17,8 @@ import kr.or.ddit.validate.groups.InsertGroup;
 
 @Controller
 public class MemberRegistController {
-    private MemberService service = new MemberServiceImpl();
+    @Autowired
+    private MemberService service;
 
     @RequestMapping("/member/regist")
     public String formUi(){

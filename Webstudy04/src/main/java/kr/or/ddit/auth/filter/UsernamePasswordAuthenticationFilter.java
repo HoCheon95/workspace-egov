@@ -11,6 +11,8 @@ import java.io.IOException;
 
 import kr.or.ddit.auth.exception.AuthenticationException;
 import kr.or.ddit.auth.service.AuthenticateService;
+import kr.or.ddit.di.ApplicationContext;
+import kr.or.ddit.di.ApplicationContextHolder;
 import kr.or.ddit.dto.MemberDto;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,11 +23,13 @@ public class UsernamePasswordAuthenticationFilter extends HttpFilter {
     private String loginFailureUrl;
     private String loginSuccessUrl;
 
-    private AuthenticateService authservice = new AuthenticateService();
+    private AuthenticateService authservice;
 
     @Override
     public void init(FilterConfig config) throws ServletException {
         super.init(config);
+        ApplicationContext context =  ApplicationContextHolder.getContext();
+        this.authservice = context.getBean(AuthenticateService.class);
         loginPage = config.getInitParameter("login-page");
         loginProcessUrl = config.getInitParameter("login-process-url");
         loginFailureUrl = config.getInitParameter("login-failure-url");

@@ -10,14 +10,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.or.ddit.dto.MemberDto;
 import kr.or.ddit.member.service.MemberService;
-import kr.or.ddit.member.service.MemberServiceImpl;
-
+import kr.or.ddit.mvc.annotation.stereotype.Autowired;
 import kr.or.ddit.mvc.annotation.stereotype.Controller;
 import kr.or.ddit.mvc.annotation.stereotype.RequestMapping;
 
 @Controller
 public class MemberListController {
-    private MemberService service = new MemberServiceImpl();
+    @Autowired
+    private MemberService service;
 
     @RequestMapping("/admin/member-list")
     public String doGet(HttpServletRequest req, Writer writer, HttpServletResponse resp) {
