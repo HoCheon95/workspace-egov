@@ -1,0 +1,113 @@
+/* 기본 폰트 및 배경 설정 */
+body {
+  font-family:
+    "Pretendard",
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* 프로필 카드 컨테이너 */
+.profile-card {
+  background: #fff;
+  width: 100%;
+  max-width: 500px;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.profile-card h2 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+  color: #111;
+  text-align: center;
+  border-bottom: 2px solid #f1f1f1;
+  padding-bottom: 15px;
+}
+
+/* 정보 행(Row) 스타일 */
+.info-group {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.info-value {
+  color: #222;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+/* 마일리지/역할 강조 포인트 */
+.highlight {
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* 데이터가 없을 때 메시지 */
+.no-data {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+}
+/* 버튼 컨테이너 및 버튼 스타일 */
+.btn-area {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-home {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #333; /* 검정색 계열 */
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  width: 100%; /* 버튼을 꽉 차게 만들고 싶을 때 */
+  text-align: center;
+}
+
+.btn-home:hover {
+  background-color: #555; /* 마우스 올렸을 때 색상 */
+}
+
+.btn-change-password {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #007bff; /* 파란색 계열 */
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  width: 100%; /* 버튼을 꽉 차게 만들고 싶을 때 */
+  margin-right: 10px; /* 홈 버튼과 간격 */
+  text-align: center;
+}
+
+.btn-change-password:hover {
+  background-color: #0056b3; /* 마우스 올렸을 때 색상 */
+}

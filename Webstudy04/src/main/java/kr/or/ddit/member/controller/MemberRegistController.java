@@ -16,14 +16,14 @@ import kr.or.ddit.mvc.annotation.stereotype.Validated;
 import kr.or.ddit.validate.groups.InsertGroup;
 
 @Controller
-public class MemberRegistController {
+public class MemberRegistController {               
     @Autowired
     private MemberService service;
 
     @RequestMapping("/member/regist")
     public String formUi(){
         return "member/registForm";
-    }
+    }           
 
     @RequestMapping(value = "/member/regist", method = RequestMethod.POST)
     public String formDataProcess(

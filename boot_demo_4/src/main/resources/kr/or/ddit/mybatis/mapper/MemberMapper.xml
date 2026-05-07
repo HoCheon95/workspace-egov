@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.member.mapper.MemberMapper">
+  <resultMap type="kr.or.ddit.dto.MemberDTO" id="memberMap" autoMapping="true">
+    <id property="memId" column="mem_id" />
+    <collection property="memRoles" javaType="java.util.List" ofType="java.lang.String">
+      <result column="role_name" />
+    </collection>
+  </resultMap>
+
+  <select id="selectMember" resultMap="memberMap"> 
+    select m.*, mr.role_name 
+    from member m 
+     inner join member_role mr on ( m.mem_id = mr.mem_id ) 
+    where m.mem_id = #{memId} 
+  </select>
+
+
+
+  <!-- selectMemberList -->
+
+  <select id="selectMemberList" resultType="kr.or.ddit.dto.MemberDTO">
+  
+    select a.*, rownum rnum
+     from
+   ( select mem_id, mem_name , mem_pass, mem_mail, mem_add1, mem_add2, mem_zip, mem_hp
+    from member 
+    <include refid="detailConditionFrag" />
+    order by mem_id)a
+    offset #{offset} rows fetch next #{screenSize} rows only
+
+     
+  </select>
+
+  <!-- updatePassword -->
+
+  <update id="updatePassword">
+    update member
+    set mem_pass = #{password} 
+    where mem_id = #{username}
+  </update>
+
+  <!-- insertMemberRole -->
+
+  <insert id="insertMemberRole">
+  insert into member_role (mem_id, role_name)
+  values (#{memId}, 'ROLE_USER')
+  </insert>
+
+  <!-- insertMember -->
+
+  <insert id="insertMember" parameterType="kr.or.ddit.dto.MemberDTO">
+      INSERT INTO MEMBER (
+          MEM_ID,
+          MEM_PASS,
+          MEM_NAME,
+          MEM_REGNO1,
+          MEM_REGNO2,
+          MEM_BIR,
+          MEM_ZIP,
+          MEM_ADD1,
+          MEM_ADD2,
+          MEM_HOMETEL,
+          MEM_COMTEL,
+          MEM_HP,
+          MEM_MAIL,
+          MEM_JOB,
+          MEM_LIKE,
+          MEM_MEMORIAL,
+          MEM_MEMORIALDAY
+
+      ) VALUES (
+        #{memId}, 
+        #{memPass}, 
+        #{memName}, 
+        #{memRegno1}, 
+        #{memRegno2}, 
+        #{memBir}, 
+        #{memZip}, 
+        #{memAdd1}, 
+        #{memAdd2}, 
+        #{memHometel}, 
+        #{memComtel}, 
+        #{memHp}, 
+        #{memMail}, 
+        #{memJob}, 
+        #{memLike}, 
+        #{memMemorial}, 
+        #{memMemorialday}
+
+      )
+
+  </insert>
+
+  <update id="updateMember" parameterType="kr.or.ddit.dto.MemberDTO">
+    UPDATE MEMBER
+    SET 
+      MEM_NAME = #{memName},
+      MEM_BIR = #{memBir},
+      MEM_ZIP = #{memZip},
+      MEM_ADD1 = #{memAdd1},
+      MEM_ADD2 = #{memAdd2},
+      MEM_HOMETEL = #{memHometel},
+      MEM_COMTEL = #{memComtel},
+      MEM_HP = #{memHp},
+      MEM_MAIL = #{memMail},
+      MEM_JOB = #{memJob},
+      MEM_LIKE = #{memLike},
+      MEM_MEMORIAL = #{memMemorial},
+      MEM_MEMORIALDAY = #{memMemorialday}
+    WHERE MEM_ID = #{memId}
+  </update>
+
+  <delete id="deleteMember" parameterType="String">
+    UPDATE MEMBER
+    SET MEM_DELETE = 'T'
+    WHERE MEM_ID = #{memId}
+  </delete>
+
+  <delete id="deleteMemberRole" parameterType="String">
+    DELETE FROM MEMBER_ROLE
+    WHERE MEM_ID = #{memId}
+  </delete>
+
+  <sql id="searchCondition">
+    <where>
+      <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+        <choose>
+          <when test="simpleCondition.searchType eq 'name'">
+            instr(mem_name, #{simpleCondition.searchWord}) > 0
+          </when>
+          <when test="simpleCondition.searchType eq 'address'">
+            instr(mem_add1, #{simpleCondition.searchWord}) > 0
+          </when>
+          <otherwise>
+              instr(mem_name, #{simpleCondition.searchWord}) > 0
+              or
+              instr(mem_add1, #{simpleCondition.searchWord}) > 0
+          </otherwise>
+        </choose>
+      </if>
+    </where>
+  </sql>
+  <sql id="detailConditionFrag">
+    <where>
+      1=1
+      <if test="detailCondition neq null">
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.memName)">
+          and instr(mem_name, #{detailCondition.memName}) > 0
+        </if>
+
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.memAdd1)">
+          and 
+          (instr(mem_add1, #{detailCondition.memAdd1})> 0
+            or 
+            instr(mem_add2, #{detailCondition.memAdd1})> 0
+          )
+
+        </if>
+      </if>
+    </where>
+  </sql>
+
+  <select id="selectTotalRecord">
+    select count(*)
+    from member m
+    <include refid="detailConditionFrag" />
+
+  </select>
+
+</mapper>

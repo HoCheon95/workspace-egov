@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.prod.mapper.ProdMapper">
+
+    <sql id="searchCondition">
+        <where>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(simpleCondition.searchWord)">
+                <choose>
+                    <when test="simpleCondition.searchType eq 'lprod_gu'">
+                    instr(l.lprod_gu, #{simpleCondition.searchWord}) > 0
+                    </when>
+                    <when test="simpleCondition.searchType eq 'buyer_id'">
+                    instr(p.buyer_id, #{simpleCondition.searchWord}) > 0
+                    </when>
+
+
+                    <otherwise>
+                    instr(l.lprod_gu, #{simpleCondition.searchWord}) > 0
+                    or
+                    instr(p.buyer_id, #{simpleCondition.searchWord}) > 0
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectProdListBak" resultType="kr.or.ddit.dto.ProdDto">
+        select b.*
+        from 
+        (select  a.*, rownum rn
+        from 
+        (select p.*,
+            l.lprod_id "lprod.lprodId",
+            l.lprod_gu "lprod.lprodGu",
+            l.lprod_name "lprod.lprodName",
+            b.buyer_id "buyer.buyerId",
+            b.buyer_name "buyer.buyerName"
+        from prod p
+        inner join lprod l on p.lprod_gu = l.lprod_gu
+        inner join buyer b on p.buyer_id = b.buyer_id
+            order by  l.lprod_gu asc, prod_id desc
+        ) a) b
+        
+        where b.rn between #{startRow} and #{endRow}
+    </select>
+
+    <sql id="detailFrag">
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="detailCondition neq null">
+                <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.lprodGu)">
+                    <!-- P.LPROD_GU 또는 L.LPROD_GU로 명시 -->
+                    AND P.LPROD_GU = #{detailCondition.lprodGu}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.buyerId)">
+                    <!-- P.BUYER_ID 또는 B.BUYER_ID로 명시 -->
+                    AND P.BUYER_ID = #{detailCondition.buyerId}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(detailCondition.prodName)">
+                    <!-- PROD_NAME은 PROD 테이블에만 있으므로 그대로 두어도 되지만, 일관성을 위해 P.를 권장합니다 -->
+                    AND INSTR(P.PROD_NAME, #{detailCondition.prodName}) > 0
+                </if>
+            </if>
+        </trim>
+    </sql>
+
+    <select id="selectProdList" resultType="kr.or.ddit.dto.ProdDto">
+        select a.*, rownum rnum
+        from
+            (select p.*,
+                l.lprod_id "lprod.lprodId",
+                l.lprod_gu "lprod.lprodGu",
+                l.lprod_name "lprod.lprodName",
+                b.buyer_id "buyer.buyerId",
+                b.buyer_name "buyer.buyerName"
+            from prod p
+            inner join lprod l on p.lprod_gu = l.lprod_gu
+            inner join buyer b on p.buyer_id = b.buyer_id
+        <include refid="detailFrag" />
+                order by  l.lprod_gu asc, prod_id desc ) a
+        offset #{offset} rows fetch next #{screenSize} rows only
+        
+    </select>
+
+    <select id="selectTotalRecord" resultType="int">
+        select count(*)
+        from prod p
+        inner join lprod l on p.lprod_gu = l.lprod_gu
+        inner join buyer b on p.buyer_id = b.buyer_id
+        <include refid="detailFrag" />
+    </select>
+
+    <select id="selectProd">
+        select p.*,
+        l.lprod_id "lprod.lprodId",
+        l.lprod_gu "lprod.lprodGu",
+        l.lprod_name "lprod.lprodName",
+        b.buyer_id "buyer.buyerId",
+        b.buyer_name "buyer.buyerName",
+        b.buyer_comtel "buyer.buyerComtel",
+        b.buyer_mail "buyer.buyerMail",
+        b.buyer_zip "buyer.buyerZip",
+        b.buyer_add1 "buyer.buyerAdd1",
+        b.buyer_add2 "buyer.buyerAdd2",
+        b.buyer_charger "buyer.buyerCharger"
+        from prod p
+        inner join lprod l on p.lprod_gu = l.lprod_gu
+        inner join buyer b on p.buyer_id = b.buyer_id
+        where prod_id = #{prodId}
+
+
+    </select>
+
+
+    <!-- 
+    
+    private String prodId;
+    private String prodName;
+    private String lprodGu;
+
+
+    private String buyerId;
+
+    private Integer prodCost;
+    private Integer prodPrice;
+    private Integer prodSale;
+    private String prodOutline;
+    private String prodDetail;
+    private String prodImg;
+    private Integer prodTotalstock;
+    private LocalDate prodInsdate;
+    private Integer prodProperstock;
+    private String prodSize;
+    private String prodColor;
+    private String prodDelivery;
+    private String prodUnit;
+    private Integer prodQtyin;
+    private Integer prodQtysale;
+    private Integer prodMileage;
+    
+    -->
+    <insert id="insertProd">
+        <selectKey order="BEFORE" resultType="String" keyProperty="prodId">
+                select #{lprodGu} || lpad(  nvl(to_number(substr(max(prod_id),4)),0) +1,6,'0')
+                from prod 
+                where lprod_gu = #{lprodGu}
+        </selectKey>
+            insert into prod
+            (
+                prod_id,
+                prod_name,
+                lprod_gu,
+                buyer_id,
+                prod_cost,
+                prod_price,
+                prod_sale,
+                prod_outline,
+                prod_detail,
+                prod_totalstock,
+                prod_insdate,
+                prod_properstock,
+                prod_size,
+                prod_color,
+                prod_delivery,
+                prod_unit,
+                prod_qtyin,
+                prod_qtysale,
+                prod_mileage
+            )
+            values
+            (
+                #{prodId},
+                #{prodName},
+                #{lprodGu},
+                #{buyerId},
+                #{prodCost},
+                #{prodPrice},
+                #{prodSale},
+                #{prodOutline},
+                #{prodDetail},
+                #{prodTotalstock},
+                sysdate,
+                #{prodProperstock},
+                #{prodSize},
+                #{prodColor},
+                #{prodDelivery},
+                #{prodUnit},
+                #{prodQtyin},
+                #{prodQtysale},
+                #{prodMileage}
+            )
+
+    </insert>
+
+    <update id="updateProd">
+            update prod
+            set prod_name = #{prodName},
+                prod_cost = #{prodCost},
+                prod_price = #{prodPrice},
+                prod_sale = #{prodSale},
+                prod_outline = #{prodOutline},
+                prod_detail = #{prodDetail},
+                prod_totalstock = #{prodTotalstock},
+                prod_properstock = #{prodProperstock},
+                prod_size = #{prodSize},
+                prod_color = #{prodColor},
+                prod_delivery = #{prodDelivery},
+                prod_unit = #{prodUnit},
+                prod_qtyin = #{prodQtyin},
+                prod_qtysale = #{prodQtysale},
+                prod_mileage = #{prodMileage}
+            where prod_id = #{prodId}
+    </update>
+</mapper>

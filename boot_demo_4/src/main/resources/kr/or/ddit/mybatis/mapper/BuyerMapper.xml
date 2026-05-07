@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.buyer.mapper.BuyerMapper">
+    <!-- <sql id="BuyerColumns">
+        중복되는 컬럼 명 리스트 나열
+    </sql> -->
+
+
+    <select id="selectBuyerList" resultType="kr.or.ddit.dto.BuyerDto">
+    select b.buyer_id "buyerId"
+                , b.buyer_name "buyerName"
+                , b.lprod_gu "lprodGu"
+                , b.buyer_bank "buyerBank"
+                , b.buyer_bankno "buyerBankno"
+                , b.buyer_bankname "buyerBankname"
+                , b.buyer_zip "buyerZip"
+                , b.buyer_add1 "buyerAdd1"
+                , b.buyer_add2 "buyerAdd2"
+                , b.buyer_comtel "buyerComtel"
+                , b.buyer_fax "buyerFax"
+                , b.buyer_mail "buyerMail"
+                , b.buyer_charger "buyerCharger"
+    
+    , l.lprod_id "lprod.lprodId"
+                , l.lprod_gu "lprod.lprodGu"
+                , l.lprod_name "lprod.lprodName"
+    from buyer b
+    inner join lprod l on b.lprod_gu = l.lprod_gu
+    </select>
+
+    <resultMap type="kr.or.ddit.dto.BuyerDto" id="buyerMap" autoMapping="true">
+        <id property="buyerId" column="buyer_id" />
+        <collection property="prodList" javaType="java.util.List" ofType="kr.or.ddit.dto.ProdDto" autoMapping="true">
+        </collection>
+    </resultMap>
+    <select id="selectBuyer" resultMap="buyerMap">
+    with buyer_view as (
+    select b.*
+                , l.lprod_id "lprod.lprodId"
+                , l.lprod_gu "lprod.lprodGu"
+                , l.lprod_name "lprod.lprodName"
+    from buyer b
+    inner join lprod l on b.lprod_gu = l.lprod_gu
+    where b.buyer_id = #{buyerId}
+    ) 
+    select bv.*,
+                p.*
+    from buyer_view bv
+    left outer join prod p on (p.buyer_id = bv.buyer_id)
+    </select>
+
+
+
+    <insert id="insertBuyer">
+        <selectKey order="BEFORE" resultType="String" keyProperty="buyerId">
+                select #{lprodGu} || lpad(  nvl(to_number(substr(max(buyer_id),5)),0) +1,2,'0')
+                from buyer 
+                where lprod_gu = #{lprodGu}
+        </selectKey>
+            insert into buyer
+            (
+                BUYER_ID,
+                BUYER_NAME,
+                LPROD_GU,
+                BUYER_BANK,
+                BUYER_BANKNO,
+                BUYER_BANKNAME,
+                BUYER_ZIP,
+                BUYER_ADD1,
+                BUYER_ADD2,
+                BUYER_COMTEL,
+                BUYER_FAX,
+                BUYER_MAIL,
+                BUYER_CHARGER,
+                BUYER_TELEXT
+
+            ) values (
+                #{buyerId},
+                #{buyerName},
+                #{lprodGu},
+                #{buyerBank},
+                #{buyerBankno},
+                #{buyerBankname},
+                #{buyerZip},
+                #{buyerAdd1},
+                #{buyerAdd2},
+                #{buyerComtel},
+                #{buyerFax},
+                #{buyerMail},
+                #{buyerCharger},
+                #{buyerTelext}
+            )
+
+
+    </insert>
+
+
+    <update id="updateBuyer" parameterType="kr.or.ddit.dto.BuyerDto">
+        update buyer
+        set 
+            buyer_name = #{buyerName},
+            buyer_bank = #{buyerBank},
+            buyer_bankno = #{buyerBankno},
+            buyer_bankname = #{buyerBankname},
+            buyer_zip = #{buyerZip},
+            buyer_add1 = #{buyerAdd1},
+            buyer_add2 = #{buyerAdd2},
+            buyer_comtel = #{buyerComtel},
+            buyer_fax = #{buyerFax},
+            buyer_mail = #{buyerMail},
+            buyer_charger = #{buyerCharger}
+        where buyer_id = #{buyerId}
+
+    </update>
+
+
+    <delete id="deleteBuyer" parameterType="String">
+        delete from buyer
+        where buyer_id = #{buyerId}
+    </delete>
+
+
+    <select id="selectBuyerListByLprodGu">
+    select b.buyer_id "buyerId"
+                , b.buyer_name "buyerName"
+                , b.lprod_gu "lprodGu"
+                , b.buyer_bank "buyerBank"
+                , b.buyer_bankno "buyerBankno"
+                , b.buyer_bankname "buyerBankname"
+                , b.buyer_zip "buyerZip"
+                , b.buyer_add1 "buyerAdd1"
+                , b.buyer_add2 "buyerAdd2"
+                , b.buyer_comtel "buyerComtel"
+                , b.buyer_fax "buyerFax"
+                , b.buyer_mail "buyerMail"
+                , b.buyer_charger "buyerCharger"
+                , l.lprod_id "lprod.lprodId"
+                , l.lprod_gu "lprod.lprodGu"
+                , l.lprod_name "lprod.lprodName"
+    from buyer b
+    inner join lprod l on b.lprod_gu = l.lprod_gu
+    where b.lprod_gu = #{lprodGu}
+
+    </select>
+
+</mapper>

@@ -126,7 +126,7 @@
                     url: "/prod/create",
                     name: "Prod Create",
                     desc: "신규 상품 등록",
-                    date: "2026-04-27"
+                    date: "2026-04-28"
                 }
             ];
             

@@ -1,0 +1,128 @@
+body {
+  font-family:
+    "Pretendard",
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 40px 20px;
+}
+
+.register-card {
+  background: #fff;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.register-card h2 {
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 1.5rem;
+  color: #111;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 28px 0 14px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  color: #888;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"] {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.required-mark {
+  color: #dc3545;
+  margin-left: 2px;
+}
+
+.btn-area {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  display: block;
+  text-align: center;
+  color: #888;
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 10px;
+  border-radius: 8px;
+  transition: color 0.2s;
+}
+
+.btn-secondary:hover {
+  color: #333;
+}

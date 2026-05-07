@@ -79,6 +79,7 @@
   <servlet>
     <servlet-name>DispatcherServlet</servlet-name>
     <servlet-class>kr.or.ddit.mvc.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>DispatcherServlet</servlet-name>
