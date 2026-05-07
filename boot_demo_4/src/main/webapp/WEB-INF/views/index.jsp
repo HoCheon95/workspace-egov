@@ -17,7 +17,8 @@
     <h1>Welcome to the Index Page</h1>
 
     <p>${attrName}</p>
-    <img src="/images/tmvlzl.png" alt="">
+    <%-- <img src="/images/tmvlzl.png" alt=""> --%>
+    <img src="/images/26147.png" alt="">
     <div style="display: flex; flex-direction: column; gap: 10px">
         <div>
             <a href="/buyer/list">Buyer List</a> | 

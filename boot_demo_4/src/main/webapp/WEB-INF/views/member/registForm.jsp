@@ -22,10 +22,10 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="memId" class="form-label">아이디</label>
-                                        <input id="memId" type="text" name="memId" class="form-control" value="${member.memId}" placeholder="아이디를 입력하세요" autocomplete="off" />
+                                        <input id="memId" type="text" name="memId" class="form-control" placeholder="아이디를 입력하세요" required="true"/>
                                         <form:errors path="memId" element="span" class="text-danger"/>
                                         <%-- 중복확인 --%>
-                                        <button type="button" id="idCheckBtn" class="btn btn-outline-secondary btn-sm mt-1">중복확인</button>
+                                        <%-- <button type="button" id="idCheckBtn" class="btn btn-outline-secondary btn-sm mt-1">중복확인</button> --%>
                                         <span id="idCheckResult" class="ms-2 small"></span>
                                     </div>
                                     <div class="col-md-6">

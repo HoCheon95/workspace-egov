@@ -23,8 +23,6 @@ public class BuyerReadController {
         return "buyer/aggrid";
     }
 
-
-
     @GetMapping(value = "/list", produces = "application/json")
     @ResponseBody
     public List<BuyerDto> buyerListJson(Model model) {
@@ -45,7 +43,6 @@ public class BuyerReadController {
         model.addAttribute("buyer", buyerDto);
         return "buyer/buyerDetail";
     }
-
 
     @GetMapping("/list/json")
     @ResponseBody

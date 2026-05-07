@@ -3,6 +3,8 @@ package kr.or.ddit.member.service;
 import java.util.List;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import kr.or.ddit.common.exception.EntityNotFoundException;
 import kr.or.ddit.common.exception.PkDuplicatedException;
 import kr.or.ddit.common.paging.PaginationInfo;
@@ -32,6 +34,13 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    /**
+     * 회원 상세 조회
+     * 
+     * @param memId 조회할 회원의 아이디
+     * @return 조회된 회원 정보가 담긴 MemberDTO 객체
+     * @throws EntityNotFoundException 조회 대상이 존재하지 않을 때 발생하는 예외
+     */
     @Override
     public MemberDTO readMember(String memId) throws EntityNotFoundException {
         // 데이터 베이스에 접근할 매퍼
@@ -46,6 +55,11 @@ public class MemberServiceImpl implements MemberService {
         return member;
     }
 
+    /**
+     * (관리자용) 모든 사용자 정보를 조회하는 메서드
+     * 
+     * @return 사용자 정보 리스트
+     */
     @Override
     public List<MemberDTO> readMemberList(PaginationInfo<?> paginationInfo) {
         int totalRecord = mapper.selectTotalRecord(paginationInfo);
@@ -58,6 +72,12 @@ public class MemberServiceImpl implements MemberService {
         return mapper.selectMember(memId) == null;
     }
 
+    /**
+     * 회원 등록
+     * 
+     * @param memberDTO 등록할 회원 정보가 담긴 MemberDTO 객체
+     */
+    @Transactional // 트랜잭션 관리
     @Override
     public void registerMember(MemberDTO member) {
         if (mapper.selectMember(member.getMemId()) != null) {
@@ -65,10 +85,11 @@ public class MemberServiceImpl implements MemberService {
         }
 
         int cnt = mapper.insertMember(member);
-        if (cnt > 0) {
-            // 예외
-            mapper.insertMemberRole(member.getMemId());
-        }
+        // if (cnt > 0) {
+        //     // 예외
+        //     throw new RuntimeException("트랜잭션 관리 여부를 확인하기 위한 강제 예외");
+        // }
+        mapper.insertMemberRole(member.getMemId());
     }
 
     @Override

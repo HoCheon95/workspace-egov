@@ -2,6 +2,8 @@ package kr.or.ddit.conf;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -14,6 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableWebMvc
 public class SpringMvcJavaConfig implements WebMvcConfigurer{
+
+    @Bean
+    public MultipartResolver multipartResolver () {
+        return new StandardServletMultipartResolver();
+    }
+
 
     @Bean
     public InternalResourceViewResolver irvr() {

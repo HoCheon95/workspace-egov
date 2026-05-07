@@ -1,11 +1,15 @@
 package kr.or.ddit.member.controller;
 
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jakarta.annotation.PostConstruct;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import kr.or.ddit.member.service.MemberService;
@@ -24,6 +28,12 @@ import org.springframework.validation.BindingResult;
 public class MemberRegistController {
     @Autowired
     private MemberService service;
+
+    @PostConstruct
+    public void init() {
+        log.info("주입된 service의 프록시 여부 : {}", AopUtils.isAopProxy(service));
+    }
+
     public static final String MODELNAME = "member";
 
     @ModelAttribute(MODELNAME)
