@@ -16,7 +16,7 @@
 <body>
 
 <div class="container my-5">
-    <form:form action="" method="post" modelAttribute="prod" novalidate="novalidate">
+    <form:form action="" method="post" modelAttribute="prod" novalidate="novalidate" enctype="multipart/form-data">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold"><span class="text-success">|</span> 신규 상품 등록/수정</h2>
             <div>
@@ -33,7 +33,12 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label required">상품 이미지</label>
-                            <input type="file" name="prodImage" class="form-control" accept="image/*">
+                            <c:if test="${not empty prod.prodImg}">
+                                <img src="/prodimages/${prod.prodImg}" class="img-fluid rounded mb-2 d-block" alt="현재 이미지">
+                            </c:if>
+                            <input type="hidden" name="prodImg" value="${prod.prodImg}">
+                            <input type="file" name="prodImage" class="form-control">
+                            <small class="text-muted">새 파일을 선택하면 기존 이미지가 교체됩니다.</small>
                         </div>
                         <div class="mb-3">
                             <label class="form-label required">상품분류(LPROD)</label>

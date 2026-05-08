@@ -1,7 +1,13 @@
 package kr.or.ddit.dto;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -60,4 +66,17 @@ public class BuyerDto implements Serializable {
     // 거래 품목 바인드
     private List<ProdDto> prodList;
 
+    private byte[] buyerImg; // BUYER 엔터티의 BUYER_IMG 컬럼 바인드용
+    private MultipartFile buyerImage; // 클라이언트가 업로드한 제조사 이미지 바인드용
+
+    public void setBuyerImage(MultipartFile buyerImage) throws IOException {
+        if (buyerImage == null || buyerImage.isEmpty()) return;
+        this.buyerImage = buyerImage;
+        this.buyerImg = buyerImage.getBytes();
+    }
+
+    public String getBase64Image() {
+        if (buyerImg == null) return null;
+        return Base64.getEncoder().encodeToString(buyerImg);
+    }
 }

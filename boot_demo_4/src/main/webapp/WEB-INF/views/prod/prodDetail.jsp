@@ -29,9 +29,8 @@
         <div class="col-lg-4">
             <div class="prod-img-container shadow-sm mb-4">
                 <c:choose>
-                    <c:when test="${not empty prod.prodImg}">
-                        <%-- <img src="${pageContext.request.contextPath}/resources/prodImages/${prod.prodImg}" class="img-fluid rounded" alt="${prod.prodName}"> --%>
-                        ${prod.prodImg} (이미지 경로)
+                    <c:when test="${not empty prod.prodImg}" >
+                        <img src="/prodimages/${prod.prodImg}" >
                     </c:when>
                     <c:otherwise>
                         <div class="py-5 bg-light text-muted">이미지가 없습니다.</div>

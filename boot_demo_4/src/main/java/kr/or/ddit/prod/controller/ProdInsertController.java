@@ -29,20 +29,23 @@ public class ProdInsertController {
     }
 
     @PostMapping
-    public String prodCreate(@Validated(InsertGroup.class) @ModelAttribute("prod") ProdDto prodDto,
-            Errors errors, Model model) {
-        model.addAttribute("formType", "insert");
+    public String prodCreate(
+            @Validated(InsertGroup.class) @ModelAttribute("prod") ProdDto prodDto,
+            Errors errors,
+            Model model
+        ) {
+            model.addAttribute("formType", "insert");
 
-        if (errors.hasErrors()) {
-            return "prod/prodForm";
-        }
+            if (errors.hasErrors()) {
+                return "prod/prodForm";
+            }
 
-        boolean result = prodService.createProd(prodDto);
-        if (result) {
-            return "redirect:/prod/detail?id=%s".formatted(prodDto.getProdId());
-        } else {
-            model.addAttribute("errors", "상품 추가가 정상적으로 완료되지 않았습니다. 다시 시도해 주세요.");
-            return "prod/prodForm";
-        }
+            boolean result = prodService.createProd(prodDto);
+            if (result) {
+                return "redirect:/prod/detail?id=%s".formatted(prodDto.getProdId());
+            } else {
+                model.addAttribute("errors", "상품 추가가 정상적으로 완료되지 않았습니다. 다시 시도해 주세요.");
+                return "prod/prodForm";
+            }
     }
 }

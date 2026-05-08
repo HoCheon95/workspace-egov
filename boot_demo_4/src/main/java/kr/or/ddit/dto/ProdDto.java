@@ -1,6 +1,9 @@
 package kr.or.ddit.dto;
 
 import java.time.LocalDate;
+import java.util.UUID;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -69,7 +72,17 @@ public class ProdDto {
 
         @Size(max = 40, groups = {InsertGroup.class, UpdateGroup.class},
                         message = "상품 이미지명은 최대 {max}자까지 입력 가능합니다. 입력된 값: ${validatedValue}")
-        private String prodImg;
+        private String prodImg; // DB 의 PROD 엔터티의 prod_img 컬럼 바인드용
+        private MultipartFile prodImage;
+        public void setProdImage(MultipartFile prodImage) {
+            if(prodImage == null || prodImage.isEmpty()) return;
+            this.prodImage = prodImage;
+            String original = prodImage.getOriginalFilename();
+            String ext = (original != null && original.contains("."))
+                ? original.substring(original.lastIndexOf("."))
+                : "";
+            this.prodImg = UUID.randomUUID().toString() + ext;
+        }
 
         @NotNull(groups = {InsertGroup.class, UpdateGroup.class}, message = "총재고는 필수 입력입니다.")
         @PositiveOrZero(groups = {InsertGroup.class, UpdateGroup.class},

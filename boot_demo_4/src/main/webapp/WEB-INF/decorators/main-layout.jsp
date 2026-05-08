@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><sitemesh:write property="title"/></title>
     <%@ include file="/WEB-INF/fragments/preCss.jsp" %>
+    <div>
+        <a href="/">Home</a>
+    </div>
     
 <sitemesh:write property="head"/>
 </head>

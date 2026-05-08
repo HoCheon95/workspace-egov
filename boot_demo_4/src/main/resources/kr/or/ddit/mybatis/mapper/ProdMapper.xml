@@ -140,7 +140,7 @@
     -->
     <insert id="insertProd">
         <selectKey order="BEFORE" resultType="String" keyProperty="prodId">
-                select #{lprodGu} || lpad(  nvl(to_number(substr(max(prod_id),4)),0) +1,6,'0')
+                select #{lprodGu} || lpad(  nvl(to_number(substr(max(prod_id),5)),0) +1,6,'0')
                 from prod 
                 where lprod_gu = #{lprodGu}
         </selectKey>
@@ -164,7 +164,8 @@
                 prod_unit,
                 prod_qtyin,
                 prod_qtysale,
-                prod_mileage
+                prod_mileage,
+                prod_img
             )
             values
             (
@@ -186,11 +187,15 @@
                 #{prodUnit},
                 #{prodQtyin},
                 #{prodQtysale},
-                #{prodMileage}
+                #{prodMileage},
+                #{prodImg}
             )
 
     </insert>
 
+
+    <!-- PUT : 전체 수정(모든 컬럼에 기본값이 덮어씌워짐.) -->
+    <!-- PATCH : 수정 할 컬럼만을 대상으로 set 절이 구성됨. -->
     <update id="updateProd">
             update prod
             set prod_name = #{prodName},
@@ -208,6 +213,9 @@
                 prod_qtyin = #{prodQtyin},
                 prod_qtysale = #{prodQtysale},
                 prod_mileage = #{prodMileage}
+                <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(prodImg)">
+                    , prod_img = #{prodImg}
+                </if>
             where prod_id = #{prodId}
     </update>
 </mapper>

@@ -38,6 +38,9 @@
             <a href="/admin/memberList/type-async">Member List Async</a>
         </div>
         <div>
+            <a href="/file/manager">File Manager</a>
+        </div>
+        <div>
             <a href="/member/regist">Sing Up</a>
         </div>
     </div>

@@ -73,6 +73,9 @@
                 BUYER_MAIL,
                 BUYER_CHARGER,
                 BUYER_TELEXT
+                <if test="buyerImg neq null and buyerImg.length gt 0">
+                , BUYER_IMG
+                </if>
 
             ) values (
                 #{buyerId},
@@ -89,6 +92,9 @@
                 #{buyerMail},
                 #{buyerCharger},
                 #{buyerTelext}
+                <if test="buyerImg neq null and buyerImg.length gt 0">
+                , #{buyerImg}   
+                </if>
             )
 
 
@@ -108,7 +114,11 @@
             buyer_comtel = #{buyerComtel},
             buyer_fax = #{buyerFax},
             buyer_mail = #{buyerMail},
-            buyer_charger = #{buyerCharger}
+            buyer_charger = #{buyerCharger},
+            BUYER_TELEXT = #{buyerTelext}
+            <if test="buyerImg neq null and buyerImg.length gt 0">
+                , BUYER_IMG = #{buyerImg}   
+            </if>
         where buyer_id = #{buyerId}
 
     </update>

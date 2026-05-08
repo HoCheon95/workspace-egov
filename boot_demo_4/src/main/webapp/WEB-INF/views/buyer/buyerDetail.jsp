@@ -16,7 +16,6 @@
    <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="fw-bold text-dark">거래처 상세 정보</h2>
                 <a href="/buyer/list" class="btn btn-outline-secondary btn-sm">목록으로</a>
@@ -27,6 +26,7 @@
                     <h5 class="card-title mb-0">${buyer.buyerName}</h5>
                 </div>
                 <div class="card-body p-0">
+                    <img src="data:image/*;base64,${buyer.base64Image }" alt="">
                     <table class="table table-hover mb-0">
                         <tbody>
                             <tr>
