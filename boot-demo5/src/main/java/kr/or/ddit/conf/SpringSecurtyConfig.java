@@ -1,12 +1,19 @@
 package kr.or.ddit.conf;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+import kr.or.ddit.security.users.CustomUserDetailsService;
+
+import jakarta.servlet.DispatcherType;
 
 /**
  * Spring Security 주요 객체
@@ -25,20 +32,48 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurtyConfig {
+    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails a001 = User.withDefaultPasswordEncoder()
-            .username("a001")
-            .password("java")
-            .authorities("ROLE_ADMIN", "ROLD_USER")
-            .build();
-        UserDetails b001 = User.withDefaultPasswordEncoder()
-            .username("b001")
-            .password("java")
-            .authorities("ROLD_USER")
-            .build();
+        return new CustomUserDetailsService();
+        // UserDetails a001 = User.withDefaultPasswordEncoder()
+        //     .username("a001")
+        //     .password("java")
+        //     .authorities("ROLE_ADMIN", "ROLD_USER")
+        //     .build();
+        // UserDetails b001 = User.withDefaultPasswordEncoder()
+        //     .username("b001")
+        //     .password("java")
+        //     .authorities("ROLD_USER")
+        //     .build();
 
-        return new InMemoryUserDetailsManager(a001, b001);
+        // return new InMemoryUserDetailsManager(a001, b001);
     }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http.authorizeHttpRequests(authorize -> 
+            authorize
+                .dispatcherTypeMatchers(
+                    DispatcherType.FORWARD, 
+                    DispatcherType.INCLUDE,
+                    DispatcherType.ERROR
+                ).permitAll()
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/member/regist").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+        )
+        // .httpBasic(Customizer.withDefaults()) // 헤더 기반 인증, username/password 노출 위험 => Bearer(JWT) 구조로 변경
+        .formLogin(Customizer.withDefaults()) // 세션 기반 인증 
+        ;
+
+        return http.build();
+    } 
 }

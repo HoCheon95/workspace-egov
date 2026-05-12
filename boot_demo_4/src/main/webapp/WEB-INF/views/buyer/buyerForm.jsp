@@ -27,6 +27,7 @@
             </div>
         </c:if>
     <form:form method="POST"  modelAttribute="buyer" novalidate="novalidate" class="needs-validation" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="" />
         <input type="file" name="buyerImage" />
         <div class="row g-3 mb-4">
             <h5 class="border-bottom pb-2">기본 정보</h5>

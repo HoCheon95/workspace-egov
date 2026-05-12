@@ -50,7 +50,7 @@ public interface MemberService {
      * 
      * @param memberDTO 삭제할 회원 정보가 담긴 MemberDTO 객체
      */
-    void removeMember(String memId, String memPass);
+    void removeMember(MemberDTO authToken);
 
     /**
      * (관리자용) 모든 사용자 정보를 조회하는 메서드

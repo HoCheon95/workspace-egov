@@ -43,10 +43,13 @@ document.addEventListener("DOMContentLoaded", () => {
         // FormData(multipart/form-data), URLSearchParams(application/x-www-form-urlencoded) 로 body 데이터를 표현함.
         const params = new URLSearchParams();
         params.append("checkId", event.target.value);
+        // <form:form> 태그가 CSRF 토큰을 자동으로 hidden input으로 넣어주는데, fetch 요청에서 미포함
+        const csrfToken = document.querySelector('input[name="_csrf"]').value;
         const resp = await fetch("/member/idCheck", {
             method:"post",
             headers: {
-                accept: "application/json"
+                accept: "application/json",
+                "X-CSRF-TOKEN": csrfToken
             },
             body: params
         });

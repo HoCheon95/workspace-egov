@@ -11,8 +11,12 @@ public class FilterConfig {
     @Bean
     public FilterRegistrationBean<Filter> siteMeshFilter() {
         Filter siteMeshFilter = new SiteMeshFilterBuilder()
-                .setDecoratorPrefix("/WEB-INF/decorators/").setMimeTypes("text/html")
-                .addExcludedPath("/rest/**").addDecoratorPath("/**", "main-layout.jsp").create();
+                .setDecoratorPrefix("/WEB-INF/decorators/")
+                .setMimeTypes("text/html")
+                .addExcludedPath("/rest/**")
+                .addExcludedPath("/login")
+                .addDecoratorPath("/**", "main-layout.jsp")
+                .create();
         FilterRegistrationBean<Filter> frb = new FilterRegistrationBean<>();
         frb.setFilter(siteMeshFilter);
         frb.setOrder(100);

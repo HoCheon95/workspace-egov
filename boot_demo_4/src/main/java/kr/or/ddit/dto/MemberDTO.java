@@ -40,8 +40,8 @@ public class MemberDTO implements Serializable {
 
         @NotBlank(groups = DeleteGroup.class, message = "회원 패스워드는 필수 입력입니다.")
         @Size(min = 4, max = 12)
-        @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[\\d])(?=.*[@!#$%^&*])[\\w@!#$%^&*]{4,12}$",
-                        message = "회원 패스워드는 영문자, 숫자, 특수문자 조합으로 4~12자 사이여야 합니다. 입력된 값: ${validatedValue}")
+        // @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[\\d])(?=.*[@!#$%^&*])[\\w@!#$%^&*]{4,12}$",
+        //                 message = "회원 패스워드는 영문자, 숫자, 특수문자 조합으로 4~12자 사이여야 합니다. 입력된 값: ${validatedValue}")
         // (?=.*[a-zA-Z]) : 영문자 최소 1개 이상
         // (?=.*[\\d]) : 숫자 최소 1개 이상
         // (?=.*[@!#$%^&*]) : 특수문자 최소 1개 이상

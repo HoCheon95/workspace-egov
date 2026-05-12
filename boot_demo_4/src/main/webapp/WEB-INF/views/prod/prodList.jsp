@@ -100,6 +100,7 @@
                     </tfoot>
 
                 </table>
+                
                 <form:form method="get" id="searchForm" modelAttribute="detailSearch" >
                     <form:input path="lprodGu" readonly="true"/>
                     <form:input path="buyerId" readonly="true"/>

@@ -2,6 +2,12 @@ package kr.or.ddit.member.service;
 
 import java.util.List;
 import org.apache.tomcat.websocket.AuthenticationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,19 +24,67 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-
     private final MemberMapper mapper;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
+    /**
+     * 비밀번호 변경
+     * 
+     * @param username    사용자 이름
+     * @param oldPassword 이전 비밀번호
+     * @param newPassword 새로운 비밀번호
+     * @throws AuthenticationException
+     */
+    @Transactional
     @Override
-    public void changePassword(String username, String oldPassword, String newPassword)
-            throws AuthenticationException {
-        // TODO Auto-generated method stub
+    public void changePassword(String username, String oldPassword, String newPassword) throws AuthenticationException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        log.info("인증된 사용자 : {}", authentication.getPrincipal());
+        // 1. 인증
+        Authentication inputToken = UsernamePasswordAuthenticationToken.unauthenticated(username, oldPassword);
+        authenticationManager.authenticate(inputToken);
+        
+        String encodedPass = passwordEncoder.encode(newPassword);
+        
+        // 2. 인증에 성공했다면, 비번 수정
+        mapper.updatePassword(username, encodedPass);
 
     }
 
+    /**
+     * 회원 정보 수정
+     * 
+     * @param memberDTO 수정할 회원 정보가 담긴 MemberDTO 객체
+     * @throws AuthenticationException
+     */
     @Override
     public void modifyMember(MemberDTO memberDTO) throws AuthenticationException {
-        // TODO Auto-generated method stub
+        // 1. 인증
+        Authentication inputToken = UsernamePasswordAuthenticationToken.unauthenticated(memberDTO.getMemId(), memberDTO.getMemPass());
+        authenticationManager.authenticate(inputToken);
+
+        mapper.updateMember(memberDTO);
+        // 자기정보 수정 후 현재 Authentication 을 새로운 Authentication 으로 변경
+        Authentication newAuthentication = authenticationManager.authenticate(inputToken);
+        SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+    }
+
+    /**
+     * 회원 삭제
+     * 
+     * @param memberDTO 삭제할 회원 정보가 담긴 MemberDTO 객체
+     */
+    @Transactional
+    @Override
+    public void removeMember(MemberDTO authToken) {
+        // 1. 인증
+        Authentication inputToken = UsernamePasswordAuthenticationToken.unauthenticated(authToken.getMemId(), authToken.getMemPass());
+        authenticationManager.authenticate(inputToken);
+
+        mapper.deleteMemberRole(authToken.getMemId());
+        mapper.deleteMember(authToken.getMemId());
 
     }
 
@@ -50,7 +104,7 @@ public class MemberServiceImpl implements MemberService {
         if (log.isInfoEnabled())
             log.info("debug 등급으로 기록한 메시지 {}", member);
         if (member == null) {
-            throw new EntityNotFoundException("%s 사용자 없음.".formatted(member));
+            throw new EntityNotFoundException("%s 사용자 없음.".formatted(memId));
         }
         return member;
     }
@@ -84,6 +138,9 @@ public class MemberServiceImpl implements MemberService {
             throw new PkDuplicatedException(member);
         }
 
+        String encodedPass = passwordEncoder.encode(member.getMemPass());
+        member.setMemPass(encodedPass);
+        
         int cnt = mapper.insertMember(member);
         // if (cnt > 0) {
         //     // 예외
@@ -92,10 +149,6 @@ public class MemberServiceImpl implements MemberService {
         mapper.insertMemberRole(member.getMemId());
     }
 
-    @Override
-    public void removeMember(String memId, String memPass) {
-        // TODO Auto-generated method stub
-
-    }
+    
 
 }

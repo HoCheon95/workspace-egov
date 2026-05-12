@@ -1,0 +1,141 @@
+{
+  "version": "3.0",
+  "lastUpdated": "2026-05-12T06:54:39.913Z",
+  "activeFeatures": [
+    "conf",
+    "member",
+    "service",
+    "controller"
+  ],
+  "primaryFeature": "conf",
+  "features": {
+    "conf": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-05-12T06:12:19.394Z",
+        "lastUpdated": "2026-05-12T06:12:56.876Z"
+      },
+      "lastFile": "/home/ho/workspace/workspace-egov/boot_demo_4/src/main/java/kr/or/ddit/conf/SpringSecurtyConfig.java"
+    },
+    "member": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-05-12T06:18:20.802Z",
+        "lastUpdated": "2026-05-12T06:22:31.190Z"
+      },
+      "lastFile": "/home/ho/workspace/workspace-egov/boot_demo_4/src/main/resources/static/js/app/member/regisForm.js"
+    },
+    "service": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-05-12T06:40:42.841Z",
+        "lastUpdated": "2026-05-12T06:40:42.841Z"
+      },
+      "lastFile": "/home/ho/workspace/workspace-egov/boot_demo_4/src/main/java/kr/or/ddit/member/service/MemberServiceImpl.java"
+    },
+    "controller": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-05-12T06:42:04.183Z",
+        "lastUpdated": "2026-05-12T06:54:39.913Z"
+      },
+      "lastFile": "/home/ho/workspace/workspace-egov/boot_demo_4/src/main/java/kr/or/ddit/member/controller/MemberModifyController.java"
+    }
+  },
+  "pipeline": {
+    "currentPhase": 1,
+    "level": "Dynamic",
+    "phaseHistory": []
+  },
+  "session": {
+    "startedAt": "2026-05-12T02:53:28.697Z",
+    "onboardingCompleted": false,
+    "lastActivity": "2026-05-12T06:54:39.913Z"
+  },
+  "history": [
+    {
+      "timestamp": "2026-05-12T06:12:19.394Z",
+      "feature": "conf",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-05-12T06:12:56.876Z",
+      "feature": "conf",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-05-12T06:18:20.802Z",
+      "feature": "member",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-05-12T06:22:31.190Z",
+      "feature": "member",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-05-12T06:40:42.841Z",
+      "feature": "service",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-05-12T06:42:04.183Z",
+      "feature": "controller",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-05-12T06:54:10.261Z",
+      "feature": "controller",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-05-12T06:54:39.913Z",
+      "feature": "controller",
+      "phase": "do",
+      "action": "updated"
+    }
+  ],
+  "stateMachine": {
+    "defaultWorkflow": "default",
+    "activeWorkflows": {},
+    "totalTransitions": 0
+  },
+  "automation": {
+    "globalLevel": 2,
+    "trustScore": 40,
+    "pendingApprovals": 0,
+    "lastGateResult": null
+  },
+  "team": {
+    "enabled": true,
+    "stateFile": ".bkit/runtime/agent-state.json",
+    "eventsFile": ".bkit/runtime/agent-events.jsonl"
+  }
+}
