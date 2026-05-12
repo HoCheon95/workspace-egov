@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RESTFUL API 테스트 </title>
+<style>
+	* {
+		box-sizing : border-box;
+	}
+	#wrapper {
+		text-align : center;
+	}
+	#list {
+		width :70%;
+		height : 400px ;
+		border :5px solid rgb (166 , 0 , 255 );
+		overflow : auto;
+	}
+	#toolbar {
+		width :70%;
+		border :5px solid orange;
+		padding-bottom : 5%;
+		
+		/*height: 50px;*/
+	}
+	div {
+		margin : 0 auto;
+		min-width : 400px ;
+	}
+	input [type=button] {
+		/* 아래로 9px 이동 크기 1.3배 */
+		transform : translateY (9px ) scale (1.3 ); 
+	}
+	#muTable {
+		margin : 0 auto;
+	}
+</style>
+</head>
+<body>
+<div id="wrapper">
+	<h1>RESTFUL API 테스통 </h1>
+	<div id="list"></div>
+	<div id="toolbar">
+		<br>
+		<form>
+			<table id="muTable">
+				<tr>
+					<td>넘 </td>
+					<td><input type="text" name="crudNum" value="" /></td>
+				</tr>
+				<tr>
+					<td>이름 </td>
+					<td><input type="text" name="crudName" value="" /></td>
+				</tr>
+				<tr>
+					<td>내용 </td>
+					<td><input type="text" name="crudContent" value="" /></td>
+				</tr>
+				<tr>
+					<td>파일 </td>
+					<td><input type="text" name="crudFile" value="" /></td>
+				</tr>
+			</table>
+		</form>
+		<input type="button"value="입력"onclick="fPostInput()">&nbsp;&nbsp;
+		<input type="button"value="수정"onclick="fPutUpdate()">&nbsp;&nbsp;
+		<input type="button"value="삭제"onclick="fDeleteDel()">&nbsp;&nbsp;
+	</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script>
+	//<form> 페이지를 오브젝트로 가져옴
+	const myForm=document.forms[0];
+	//빈 <div>을 오브젝트로 가져옴
+	const myList=document.querySelector("#list");
+
+	// 기능 함수 
+	// 테이블 TR에 마우스를 올리면 색상 변경. 요런건 기본으로 제공하는 게 좋음 
+	const fTrClickMouseOverOut=()=>{
+		let trs=document.querySelectorAll("tr");
+		for (let i=0;i<trs.length;i++){			
+			trs[i].addEventListener("mouseover",()=>{
+				trs[i].style.backgroundColor="black";
+				trs[i].style.color="orange";
+			});
+
+			trs[i].addEventListener("mouseout",function (){
+				this.style.backgroundColor="white";
+				this.style.color="black";
+				this.style.fontWeight="normal";
+			});
+		}
+	}
+
+	// 테이블 맹그는 함수 
+	const fMakeTable=(sujins)=>{
+		let tableStr=`<table border=1 style="width:100%"><tbody>`;
+		tableStr +=`<tr><th>Num</th><th>Name</th><th>Content</th><th>File</th></tr>`;
+		for (let i=0 ; i<sujins.length; i++){
+			let sujin=sujins[i];
+			tableStr +=`<tr onclick="fGetOne(${sujin.crudNum})">`;
+		    tableStr +=`<td>${sujin.crudNum}</td>`;		
+		    tableStr +=`<td>${sujin.crudName}</td>`;		
+		    tableStr +=`<td>${sujin.crudContent}</td>`;		
+		    tableStr +=`<td>${sujin.crudFile}</td>`;		
+			tableStr +=`</tr>`;
+		}
+		tableStr +=`<tr></tbody></table>`;
+		myList.innerHTML = tableStr;
+		
+		//테이블이 동적으로 새로 맹글어지므로, TR이벤트도 그때마당 
+		fTrClickMouseOverOut();
+	}
+
+
+	// 백엔드 Restful SujinController에 대응하는 함수들 
+	// 1. get으로 list(sujins)가져오깅 시작 /////////////////////// 
+	const fGetList=()=>{
+		let xhr = new XMLHttpRequest();
+		xhr.open("get", "/api/listCrud", true);
+		xhr.onreadystatechange=()=>{
+			if (xhr.readyState==4 && xhr.status==200){
+				//console.log("항상먼저화깅:",xhr.responseText);
+				let voList = JSON.parse(xhr.responseText);
+				
+				fMakeTable(voList.sort((a,b)=>{
+					return a.crudNum - b.crudNum;
+				})); 
+			}
+		}//end onreadystatechange
+		xhr.send();
+	}
+	// 1. get으로 list(sujins)가져오깅 끝 ///////////////////////
+
+	// 2. get으로 1개 row(sujin) 가져오깅 시작 //////////////// 
+	const fGetOne=(crudNum)=>{
+		console.log("crudNum : ", crudNum);
+		let xhr = new XMLHttpRequest();
+		xhr.open("get",`/api/getCrud/${crudNum}`,true);
+		xhr.onreadystatechange=()=>{
+			if (xhr.readyState==4 && xhr.status==200 ){
+				//항상먼저화깅: {"crudNum":7,"crudContent":"8개월간 좋...","crudName":"빙민","crudFile":"/merong/roze7.jpg"}
+				console.log("항상먼저화깅:",xhr.responseText);
+				let crudVO = JSON.parse(xhr.responseText);
+				// form안의 element요소에 가져온 값 넣어주깅 
+				myForm.crudNum.value=crudVO.crudNum;
+				myForm.crudName.value=crudVO.crudName;
+				myForm.crudContent.value=crudVO.crudContent;
+				myForm.crudFile.value=crudVO.crudFile;
+			}
+		}
+		xhr.send();
+	}
+	// 2. get으로 1개 row(sujin) 가져오깅 끝 ////////////////
+
+	// 3. post로 insert 1개 row(sujin) 시작 ///////////// 
+	const fPostInput=()=>{
+		// 아작스 쓸땡, 넘기는 데이타는 누네 잘 보이도록..디버깅 용이 
+		// FormData를 이용하지 않을 때는 JSON문자열로 보내는 거시 확장성이 좋당 
+		// 자바는 자바스크립트의 객체를 이해못한당.(문자열은 글자임을 안당)
+		let crudVO=JSON.stringify({
+//			crudNum : myForm.crudNum.value,  // sequence 쓰므로 필요없음 
+			crudName : myForm.crudName.value,
+			crudContent : myForm.crudContent.value,
+			crudFile : myForm.crudFile.value,
+		});
+		
+		//fPostInput->crudVO :  {"crudName":"개똥이","crudContent":"개똥이21","crudFile":"/merong/roze21.jpg"}
+		console.log("fPostInput->crudVO : ", crudVO);
+
+		let xhr = new XMLHttpRequest();
+		xhr.open("post","/api/insertCrud",true);
+		xhr.setRequestHeader("Content-Type","application/json;charset=utf-8");
+		xhr.onreadystatechange=()=>{
+			if (xhr.readyState==4 && xhr.status==200 ){
+				console.log("항상먼저화깅:",xhr.responseText);
+				let rowCnt = xhr.responseText;
+				if (rowCnt !=0 ){
+					alert("잘 추가 되었다네용");
+					fGetList();  // 리스트 다시 가져오깅, 일부렁?(다른방법은?)
+					console.log("체킁:",myList.scrollHeight);
+
+					//그려지고 있는동안(Rendering중)에 움직이면 쪼메 모자라게 됨)
+					setTimeout (()=>{  
+						myList.scrollTo(0 ,myList.scrollHeight);
+					},30 );
+				}
+			}
+		}
+		xhr.send(crudVO);   
+	}
+	// 3. post로 insert 1개 row(sujin) 끝 /////////////
+
+	// 3-2) 참고 postInput을 jqury $.ajax로 고친다면 시작 ////////// 
+	const fPostInput2=()=>{
+		let crudVO=JSON.stringify({
+//			crudNum : myForm.crudNum.value,  // sequence 쓰므로 필요없음 
+			"crudName":myForm.crudName.value,
+			"crudContent":myForm.crudContent.value,
+			"crudFile":myForm.crudFile.value,
+		});
+		console.log("crudVO : ", crudVO);
+
+		$.ajax({
+			type :"post",
+			url :"/api/insertCrud",
+			contentType :"application/json;charset=utf-8",
+			dataType :"text",
+			data : crudVO,
+			success :function(rslt){
+				console.log("항상먼저화깅:",rslt);
+				let rowCnt = rslt;
+				if (rowCnt != 0){
+					alert("잘 추가 되었다네용");
+					fGetList();  // 리스트 다시 가져오깅, 일부렁?(다른방법은?)
+					console.log("체킁:", myList.scrollHeight);
+
+					//그려지고 있는동안(Rendering중)에 움직이면 쪼메 모자라게 됨)
+					setTimeout(()=>{  
+						myList.scrollTo(0, myList.scrollHeight);
+					},30);
+				}
+			}
+		})
+	}
+	// 3-2) 참고 postInput을 jqury $.ajax로 고친다면 끝 //////////
+
+	// 4. put으로 update 수정 부르깅 시작 //////////// 
+	const fPutUpdate=()=>{
+		let crudVO=JSON.stringify({
+			crudNum : myForm.crudNum.value,
+			crudName : myForm.crudName.value,
+			crudContent : myForm.crudContent.value,
+			crudFile : myForm.crudFile.value,
+		});
+		console.log("fPutUpdate->crudVO : ", crudVO);
+
+		let xhr = new XMLHttpRequest();
+		xhr.open("put","/api/updateCrud",true);
+		xhr.setRequestHeader("Content-Type","application/json;charset=ut-8");
+		xhr.onreadystatechange=()=>{
+			if (xhr.readyState==4 && xhr.status==200 ){
+				let rowCnt = xhr.responseText;
+				if (rowCnt != 0 ){
+					alert("잘 수정 되었다네용");
+					fGetList();  // 리스트 다시 가져오깅, 일부렁?(다른방법은?)
+				}
+			}
+		}
+		xhr.send(crudVO);
+	}
+	// 4. put으로 update 수정 부르깅 끝 ////////////
+
+	// 5. delete 메소드로 요청해서 지우깅 시작 /////////// 
+	const fDeleteDel=()=>{
+		let crudNum = myForm.crudNum.value;
+		console.log("fDeleteDel->crudNum : " + crudNum);
+		
+		let xhr = new XMLHttpRequest();
+		xhr.open("delete",`/api/deleteCrud/${crudNum}`,true);
+		xhr.setRequestHeader("Content-Type","application/json;charset=utf-8");
+		xhr.onreadystatechange=()=>{
+			if (xhr.readyState==4 && xhr.status==200 ){
+				console.log("항상먼저화깅:", xhr.responseText);
+				let rowCnt = xhr.responseText;
+				if (rowCnt !=0 ){
+					alert("잘 지워졌다네용");
+					fGetList(); // 리스트 다시 가져오깅, 일부렁?(다른방법은?)
+				}
+			}
+		}
+		xhr.send();
+	}
+	// 5. delete 메소드로 요청해서 지우깅 끝 ///////////
+	
+	fGetList(); // 그냥 바로 리스트 콜!
+</script>
+</body>
+</html>

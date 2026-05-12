@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.BlogMapper">
+	
+	<!-- 
+	블로그 글 추가 메서드
+	 -->
+	<insert id="save" parameterType="kr.or.ddit.vo.ArticleVO">
+		<selectKey resultType="long" order="BEFORE" keyProperty="id">
+			SELECT NVL(MAX(ID),0)+1 FROM ARTICLE
+		</selectKey>
+	
+		INSERT INTO ARTICLE(ID, TITLE, CONTENT, CREATED_AT) 
+		VALUES(#{id},#{title},#{content},SYSDATE)
+	</insert>	
+	
+	<!-- 
+	블로그 글 목록
+	 -->
+	<select id="findAll">
+		SELECT ID, TITLE, CONTENT, CREATED_AT FROM ARTICLE
+		ORDER BY ID
+	</select>
+	
+	<!-- 
+	글의 ID를 이용해 글을 조회함
+	 -->
+	 <select id="findById" parameterType="long" resultType="kr.or.ddit.vo.ArticleVO">
+	 	SELECT ID, TITLE, CONTENT, CREATED_AT
+	 	FROM   ARTICLE
+	 	WHERE  ID = #{id}
+	 </select>
+	 
+	<!-- 
+	글 상세
+	public ArticleVO getArticle(Long id)
+	 -->
+	 <select id="getArticle" parameterType="long" resultType="kr.or.ddit.vo.ArticleVO">
+	 	SELECT ID, TITLE, CONTENT, CREATED_AT 
+	 	FROM   ARTICLE
+	 	WHERE  ID = #{id}
+	 </select>
+	 
+	 <!-- 
+	 id에 해당하는 블로그 글을 삭제
+	 블로그 글의 id를 받은 뒤 데이터베이스에서 해당 데이터를 삭제
+	  -->
+	 <delete id="delete" parameterType="long">
+	 	DELETE FROM ARTICLE
+	 	WHERE  ID = #{id}
+	 </delete>
+	 
+	 <!-- 
+	 id에 해당하는 블로그 글 수정
+	  -->
+	 <update id="update" parameterType="kr.or.ddit.vo.ArticleVO">
+	 	UPDATE ARTICLE
+	 	SET    TITLE = #{title}, CONTENT = #{content}
+	 		 , CREATED_AT = SYSDATE
+	 	WHERE  ID = #{id}
+	 </update>
+	
+	<!-- 테스트 데이터를 입력하기 전에 모든 데이터 삭제 -->
+	<delete id="deleteTestDatas">
+		DELETE FROM ARTICLE
+	</delete>
+	
+	<!-- 테스트 데이터를 3행 insert -->
+	<insert id="insertTestDatas">
+		INSERT ALL 
+		    INTO ARTICLE(ID,TITLE,CONTENT, CREATED_AT) VALUES(1,'제목1','내용1',SYSDATE)
+		    INTO ARTICLE(ID,TITLE,CONTENT, CREATED_AT) VALUES(2,'제목2','내용2',SYSDATE)
+		    INTO ARTICLE(ID,TITLE,CONTENT, CREATED_AT) VALUES(3,'제목3','내용3',SYSDATE)
+		SELECT * FROM DUAL
+	</insert>
+</mapper>

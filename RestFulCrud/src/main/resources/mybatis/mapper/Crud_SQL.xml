@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.CrudMapper">
+	<select id="listCrud" resultType="CrudVO">
+		SELECT CRUD_NUM, CRUD_CONTENT, CRUD_NAME, CRUD_FILE
+		FROM   CRUD
+		ORDER BY CRUD_NUM DESC
+	</select >
+	
+	<select id="getCrud" parameterType="CrudVO" resultType="CrudVO">
+		SELECT CRUD_NUM, CRUD_CONTENT, CRUD_NAME, CRUD_FILE
+		FROM   CRUD
+		WHERE  CRUD_NUM = #{crudNum}
+	</select >
+	
+	<insert id="insertCrud" parameterType="CrudVO">
+		<selectKey resultType="int" order="BEFORE" keyProperty="crudNum">
+			SELECT NVL(MAX(CRUD_NUM),0)+1 FROM CRUD
+		</selectKey>
+	
+		INSERT INTO CRUD(CRUD_NUM, CRUD_CONTENT, CRUD_NAME, CRUD_FILE)
+		VALUES(#{crudNum},#{crudContent},#{crudName},#{crudFile})
+	</insert>
+	
+	<update id="updateCrud" parameterType="CrudVO">
+		UPDATE CRUD
+	 	SET    CRUD_CONTENT = #{crudContent}
+	 		 , CRUD_NAME    = #{crudName}
+	 		 , CRUD_FILE    = #{crudFile}
+		WHERE  CRUD_NUM     = #{crudNum}
+	</update>
+	
+	<delete id="deleteCrud" parameterType="CrudVO">
+		DELETE FROM CRUD 
+		WHERE  CRUD_NUM = #{crudNum}
+	</delete>
+</mapper>
