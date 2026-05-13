@@ -85,7 +85,7 @@ public class SpringSecurtyConfig {
             logout.logoutUrl("/logout")
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
-                .deleteCookies("dummy")
+                .deleteCookies("dummy", "access-token")
         )
         ;
 
@@ -94,7 +94,7 @@ public class SpringSecurtyConfig {
 
     @Bean
     public LogoutHandler logoutHandler() {
-        CookieClearingLogoutHandler handler1 = new CookieClearingLogoutHandler("dummy");
+        CookieClearingLogoutHandler handler1 = new CookieClearingLogoutHandler("dummy", "access-token");
         SecurityContextLogoutHandler handler2 = new SecurityContextLogoutHandler();
         handler2.setInvalidateHttpSession(true);
         CompositeLogoutHandler logoutHandler = new CompositeLogoutHandler(handler1, handler2);

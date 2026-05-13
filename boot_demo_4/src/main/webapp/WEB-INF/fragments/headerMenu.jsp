@@ -12,6 +12,7 @@
     <security:authentication property="authorities" var="authorities"/>
     <a href="/member/mypage">${principal.realUser.memName}</a>, ${authorities} |
     <a href="/logout">로그아웃</a> | 
+    <a href="http://localhost:5174/" target="_blank">리액트 페이지로 이동</a>
 </security:authorize>
 <ul>
     <security:authorize access="hasRole('ADMIN')">

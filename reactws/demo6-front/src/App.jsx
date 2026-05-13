@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -6,6 +6,28 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [employees, setEmployees] = useState([])
+  useEffect(() => {
+    fetch("http://localhost:8080/rest/employees", {
+      credentials: "include"
+    })
+      .then(resp=>{
+        if (resp.ok) {
+          return resp.json();
+        } else {
+          if (resp.status == 401){
+            location.href="http://localhost:8081/login";
+          } else {
+            alert(`상태코드 : ${resp.status}`);
+          }
+        }
+      })
+      .then(json => {
+        console.log(json);
+        setEmployees(json);
+      });
+
+  }, [])
 
   return (
     <>
@@ -28,6 +50,16 @@ function App() {
         >
           Count is {count}
         </button>
+        <a href='http://localhost:8081/logout'>로그아웃</a>
+        {employees && (
+          <ul>
+            {employees.map(emp => (
+              <li key={emp.employeeId}>
+                {emp.employeeId} | {emp.firstName} {emp.lastName} | {emp.jobId}
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       <div className="ticks"></div>
